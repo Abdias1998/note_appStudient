@@ -3,7 +3,12 @@ import { useState } from "react";
 
 // Exemple de données
 const professorsData = [
-  { name: "John Doe", totalRating: 125, institution: "University A" },
+  {
+    name: "John Doe",
+    totalRating: 125,
+    institution: "University A",
+    imageUrl: "./next.svg",
+  },
   { name: "Jane Smith", totalRating: 98, institution: "University B" },
   { name: "Michael Johnson", totalRating: 150, institution: "University C" },
   { name: "Michael Johnson", totalRating: 150, institution: "University C" },

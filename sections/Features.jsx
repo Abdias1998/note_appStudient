@@ -7,27 +7,36 @@ import {
 
 const features = [
   {
-    name: "Push to deploy",
-    description:
-      "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+    name: "Se connecter",
+    description: "Connectez-vous à votre compte étudiant",
     icon: CloudArrowUpIcon,
   },
   {
-    name: "SSL certificates",
-    description:
-      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.",
+    name: "Sele",
+    description: "Sélectionnez la classe pour laquelle vous souhaitez voter.",
     icon: LockClosedIcon,
   },
   {
     name: "Simple queues",
     description:
-      "Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.",
+      "Consultez la liste des professeurs éligibles et lisez leurs profils.",
     icon: ArrowPathIcon,
   },
   {
     name: "Advanced security",
     description:
-      "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
+      "Votez pour votre professeur préféré en appuyant sur le bouton 'Voter'.",
+    icon: FingerPrintIcon,
+  },
+  {
+    name: "Advanced security",
+    description: "Vous pouvez voter pour un seul professeur par classe.",
+    icon: FingerPrintIcon,
+  },
+  {
+    name: "Advanced security",
+    description:
+      "Partagez votre vote sur les réseaux sociaux pour encourager vos camarades à participer !",
     icon: FingerPrintIcon,
   },
 ];
