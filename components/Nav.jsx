@@ -1,18 +1,46 @@
 "use client";
+import { useEffect, useRef } from "react";
+import axios from "axios";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
+import { Avatar } from "primereact/avatar";
+import { PanelMenu } from "primereact/panelmenu";
+import { Toast } from "primereact/toast";
 
 const navigation = [
   { name: "À propos", href: "/about" },
-  { name: "Features", href: "#" },
-  { name: "Marketplace", href: "#" },
+  { name: "Votes", href: "/votes" },
   { name: "Statistiques", href: "/statistiques" },
+  { name: "Marketplace", href: "#" },
 ];
 
-export default function NavBar() {
+const items = [
+  {
+    label: "",
+    icon: "pi pi-user",
+    items: [
+      {
+        label: "Déconnexion",
+        icon: "pi pi-sign-out",
+        command: () => signOut(),
+      },
+    ],
+  },
+];
+
+const signOut = () => {
+  // Supprimer le cookie userId
+  document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+  // Rediriger l'utilisateur vers la page de connexion
+  window.location.href = "/login";
+};
+
+export default function NavBar({ user }) {
+  const toast = useRef(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -57,12 +85,19 @@ export default function NavBar() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link
-              href="/login"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Se connecter <span aria-hidden="true">&rarr;</span>
-            </Link>
+            {user ? (
+              <div className="card flex justify-content-center">
+                <PanelMenu model={items} className="w-full md:w-20rem" />
+                <Toast ref={toast} />
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="text-sm font-semibold leading-6 text-gray-900"
+              >
+                Se connecter <span aria-hidden="true">&rarr;</span>
+              </Link>
+            )}
           </div>
         </nav>
         <Dialog
@@ -106,12 +141,19 @@ export default function NavBar() {
                   ))}
                 </div>
                 <div className="py-6">
-                  <Link
-                    href="/login"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Se connecter
-                  </Link>
+                  {user ? (
+                    <div className="card flex justify-content-center">
+                      <PanelMenu model={items} className="w-full md:w-20rem" />
+                      <Toast ref={toast} />
+                    </div>
+                  ) : (
+                    <Link
+                      href="/login"
+                      className="text-sm font-semibold leading-6 text-gray-900"
+                    >
+                      Se connecter <span aria-hidden="true">&rarr;</span>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

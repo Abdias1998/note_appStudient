@@ -1,6 +1,6 @@
 import React from "react";
 
-const Heroe = () => {
+const Heroe = ({ user }) => {
   return (
     <div className="relative isolate px-6 pt-14 lg:px-8 ">
       <div
@@ -27,10 +27,12 @@ const Heroe = () => {
         </div>
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            Élection des Meilleurs Professeurs
+            Élection des Meilleurs Professeurs{" "}
+            {user && `de la classe de ${user.classe}`}
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Participez à l'élection des meilleurs professeurs de chaque classe !
+            Participez à l'élection des meilleurs professeurs de{" "}
+            {user ? `votre classe. ` : `chaque classe !`}
             Cette application vous permet de voter pour les enseignants qui vous
             ont le plus inspirés, motivés et aidés dans votre parcours
             académique. Exprimez votre reconnaissance en soutenant vos
@@ -38,12 +40,21 @@ const Heroe = () => {
             exceptionnel envers l'éducation.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <a
-              href="#"
-              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Commencer
-            </a>
+            {user ? (
+              <a
+                href="#"
+                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Voter
+              </a>
+            ) : (
+              <a
+                href="#"
+                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Commencer
+              </a>
+            )}
             <a
               href="#"
               className="text-sm font-semibold leading-6 text-gray-900"
