@@ -15,10 +15,13 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true); // Définir l'état de chargement sur vrai lors de la soumission du formulaire
     try {
-      const response = await axios.post(`^${requete.user}/login`, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `https://backendnote-zul9.onrender.com/api/user/login`,
+        {
+          email,
+          password,
+        }
+      );
       if (response.status === 200) {
         document.cookie = `userId=${response.data.userId}`;
         router.push("/");

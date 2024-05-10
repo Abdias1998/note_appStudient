@@ -43,7 +43,7 @@ const CardForLandingPage = ({ user }) => {
   useEffect(() => {
     if (user) {
       axios
-        .post(`${requete.prof}/find`, {
+        .post(`https://backendnote-zul9.onrender.com/api/prof/find`, {
           etat,
           classe,
           type,

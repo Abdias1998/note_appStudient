@@ -36,7 +36,7 @@ const VoteCard = () => {
     if (cookieValue) {
       // Effectuer la requête GET vers l'API avec userId extrait
       axios
-        .get(`${requete.user}/${cookieValue}`)
+        .get(`https://backendnote-zul9.onrender.com/api/user/${cookieValue}`)
         .then((response) => {
           // Gérer la réponse de l'API
           console.log(response + "page vote");
