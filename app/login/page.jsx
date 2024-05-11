@@ -4,6 +4,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { requete } from "@/utils/requete";
 
+import { ProgressSpinner } from "primereact/progressspinner";
+
 const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -16,7 +18,8 @@ const LoginPage = () => {
     setLoading(true); // Définir l'état de chargement sur vrai lors de la soumission du formulaire
     try {
       const response = await axios.post(
-        `https://backendnote-zul9.onrender.com/api/user/login`,
+        // `https://backendnote-zul9.onrender.com/api/user/login`,
+        `${process.env.NEXT_PUBLIC_APP_USER}/login`,
         {
           email,
           password,
@@ -28,9 +31,11 @@ const LoginPage = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
       setError(error.response.data.message);
       setLoading(false);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
     }
     setLoading(false); // Définir l'état de chargement sur faux après le traitement
   };
@@ -92,30 +97,14 @@ const LoginPage = () => {
 
             <div className="flex justify-center">
               {loading ? (
-                <button className="relative w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <svg
-                      className="animate-spin h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="20"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.001 8.001 0 0117.709 6H20c0 6.627-5.373 12-12 12v-3.009zM20 12a8 8 0 01-8 8v3.009A8.001 8.001 0 016 11.709V9c6.627 0 12-5.373 12-12h-3.009zM12 6.291V3.991A8.001 8.001 0 016.291 18H9a6.978 6.978 0 003.687-1.037l1.148 1.148A8.013 8.013 0 0112 6.291z"
-                      ></path>
-                    </svg>
-                  </div>
-                </button>
+                <div className="card flex justify-center">
+                  <ProgressSpinner
+                    style={{ width: "35px", height: "35px" }}
+                    strokeWidth="8"
+                    fill="var(--surface-ground)"
+                    animationDuration=".5s"
+                  />
+                </div>
               ) : (
                 <button
                   type="submit"

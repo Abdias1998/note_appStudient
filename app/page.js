@@ -11,10 +11,12 @@ import CardForLandingPage from "@/sections/CardForLandingPage";
 import Team from "@/sections/Team";
 import { requete } from "@/utils/requete";
 
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
 export default function Home() {
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     // Extraire userId du cookie
@@ -26,10 +28,11 @@ export default function Home() {
     if (cookieValue) {
       // Effectuer la requête GET vers l'API avec userId extrait
       axios
-        .get(`https://backendnote-zul9.onrender.com/api/user/${cookieValue}`)
+        // .get(`https://backendnote-zul9.onrender.com/api/user/${cookieValue}`)
+        .get(`${process.env.NEXT_PUBLIC_APP_USER}/${cookieValue}`)
         .then((response) => {
           // Gérer la réponse de l'API
-          console.log(response.data);
+          // console.log(response.data);
           setUser(response.data.user);
 
           // Mettre à jour l'état avec les données de l'utilisateur

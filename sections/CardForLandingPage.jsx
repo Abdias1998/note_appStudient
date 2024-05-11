@@ -3,6 +3,9 @@ import { requete } from "@/utils/requete";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+import { Skeleton } from "primereact/skeleton";
+import { Button } from "@headlessui/react";
+
 // Exemple de données
 const professorsData = [
   {
@@ -26,7 +29,8 @@ const CardForLandingPage = ({ user }) => {
   const serie = user.serie;
   const type = user.type;
   const etat = user.etat;
-  console.log(classe, serie, type, etat);
+  const userId = user._id;
+  // console.log(classe, serie, type, etat);
   // Calcul du début et de la fin de la plage de données à afficher
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = Math.min(startIndex + pageSize, professorsData.length);
@@ -43,15 +47,17 @@ const CardForLandingPage = ({ user }) => {
   useEffect(() => {
     if (user) {
       axios
-        .post(`https://backendnote-zul9.onrender.com/api/prof/find`, {
+        // .post(`https://backendnote-zul9.onrender.com/api/prof/find`,
+        .post(`${process.env.NEXT_PUBLIC_APP_PROF}/find`, {
           etat,
           classe,
           type,
           serie,
+          userId,
         })
         .then((response) => {
           // Gérer la réponse de l'API
-          console.log(response.data);
+          // console.log(response.data);
           setProfData(response.data);
           // Mettre à jour l'état avec les données de l'utilisateur
           // Exemple: setUserId(response.data.user._id);
@@ -79,7 +85,9 @@ const CardForLandingPage = ({ user }) => {
               >
                 <img
                   className="h-24 w-24 rounded-full mb-2"
-                  src={professor.sexe === "M" ? "./vercel.svg" : "./avatar.png"}
+                  src={
+                    professor.sexe === "M" ? "./user-h.webp" : "./user-f.webp"
+                  }
                   alt={`${professor.firstName}'s photo`}
                 />
                 <h2 className="text-lg font-semibold mb-1">
@@ -97,7 +105,7 @@ const CardForLandingPage = ({ user }) => {
                       d="M10 1.5a.75.75 0 0 1 .672.418l1.882 3.815 4.213.614a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L10 14.697l-3.766 1.985a.75.75 0 0 1-1.088-.79l.719-4.193L.818 7.526a.75.75 0 0 1 .416-1.28l4.213-.613L9.328 1.92A.75.75 0 0 1 10 1.5zM10 16a.75.75 0 0 1 .5.19l3.124 2.605-.938-5.477a.75.75 0 0 1 .216-.656l3.073-3a.75.75 0 0 1 .414-.122l4.04-.587-5.586-.73a.75.75 0 0 1-.565-.414L10 3.885V16z"
                     />
                   </svg>
-                  <span>{professor?.rating?.length}</span>
+                  <span>{professor?.averageRating}</span>
                 </div>
                 <div className="flex items-center mb-2">
                   <svg
@@ -145,9 +153,38 @@ const CardForLandingPage = ({ user }) => {
           </div>
         </>
       ) : (
-        <p className="mt-6 text-lg leading-8 text-gray-600">
-          Aucune donnée pour le moment
-        </p>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[...Array(6)].map((_, index) => (
+              <div
+                key={index}
+                className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center"
+              >
+                <Skeleton shape="circle" size="4rem" className="mb-2" />
+                <Skeleton width="80%" height="1.5rem" className="mb-1" />
+                <Skeleton width="60%" height="1rem" className="mb-1" />
+                <Skeleton width="40%" height="1rem" className="mb-2" />
+                <Button
+                  disabled
+                  label="Voir les stats"
+                  className="bg-gray-300 py-2 px-4 rounded cursor-not-allowed"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between mt-4">
+            <Button
+              disabled
+              label="Précédent"
+              className="bg-gray-300 py-2 px-4 rounded cursor-not-allowed"
+            />
+            <Button
+              disabled
+              label="Suivant"
+              className="bg-gray-300 py-2 px-4 rounded cursor-not-allowed"
+            />
+          </div>
+        </>
       )}
     </div>
   );
