@@ -26,7 +26,16 @@ const LoginPage = () => {
         }
       );
       if (response.status === 200) {
-        document.cookie = `userId=${response.data.userId}`;
+        // Définir la date d'expiration du cookie dans 7 jours
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 7);
+
+        // Formater la date d'expiration selon le format UTC
+        const expirationDateString = expirationDate.toUTCString();
+
+        // Créer le cookie avec la date d'expiration
+        document.cookie = `userId=${response.data.userId}; expires=${expirationDateString}; path=/`;
+
         router.push("/");
         setLoading(false);
       }

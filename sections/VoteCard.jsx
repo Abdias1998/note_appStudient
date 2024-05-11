@@ -6,6 +6,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import Modal from "react-modal";
 import { filterNotesByStudentId } from "@/utils/hook";
 import { Button } from "primereact/button";
+import { Rating } from "primereact/rating";
 
 const customStyles = {
   content: {
@@ -35,14 +36,17 @@ const VoteCard = ({ user }) => {
     setIsOpen(false);
   };
 
-  const handleRatingChange = (profId, rating) => {
-    setRatings((prevRatings) => ({
-      ...prevRatings,
-      [profId]: rating,
-    }));
+  const handleRatingChange = (rating) => {
+    setRatings(rating);
   };
 
   const handleVote = async (id) => {
+    // Vérifier si la valeur de rating pour ce professeur est une chaîne vide ou non
+    if (!ratings[id]) {
+      openModal("La note ne peut pas être vide.");
+      return; // Arrêter l'exécution de la fonction si la note est vide
+    }
+
     setLoadingState((prevLoadingState) => ({
       ...prevLoadingState,
       [id]: true, // Activer le chargement pour ce professeur
@@ -143,20 +147,19 @@ const VoteCard = ({ user }) => {
               />
             </div>
             <div className="flex justify-center space-x-1 mb-4 text-3xl">
-              {[...Array(5)].map((_, index) => (
-                <button
-                  key={index}
-                  className={`text-yellow-500 ${
-                    index < ratings[prof._id]
-                      ? "text-yellow-600"
-                      : "text-gray-300"
-                  }`}
-                  onClick={() => handleRatingChange(prof._id, index + 1)}
-                  title={`${index + 1}`}
-                >
-                  &#9733;
-                </button>
-              ))}
+              <Rating
+                // value={ratings[prof._id]}
+                readOnly={false}
+                value={
+                  prof.userRating
+                    ? Math.round(prof.averageRating)
+                    : ratings[prof._id]
+                }
+                onChange={(e) =>
+                  handleRatingChange({ ...ratings, [prof._id]: e.value })
+                }
+                cancel={false}
+              />
             </div>
             <div className="flex justify-center space-x-1 mb-4 text-2xl">
               {/* <p>
@@ -167,16 +170,26 @@ const VoteCard = ({ user }) => {
                 /5
               </p> */}
 
-              <p>{prof.averageRating}</p>
+              <p className="text-xl font-bold">
+                {prof.averageRating ? prof.averageRating + "/5" : "Aucun vote"}
+              </p>
             </div>
             <div className="flex justify-center mb-4">
               {loadingState[prof._id] ? (
                 <ProgressSpinner
-                  style={{ width: "50px", height: "50px" }}
+                  style={{ width: "30px", height: "30px" }}
                   strokeWidth="8"
                   fill="var(--surface-ground)"
                   animationDuration=".5s"
                 />
+              ) : prof.averageRating ? (
+                <button
+                  onClick={() => handleVote(prof._id)}
+                  className={`bg-red-500 text-white py-2 px-4 rounded`}
+                  disabled // Désactiver le bouton si le chargement est en cours pour ce professeur
+                >
+                  Votre note est de {prof.userRating}/5
+                </button>
               ) : (
                 <button
                   onClick={() => handleVote(prof._id)}

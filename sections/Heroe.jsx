@@ -28,9 +28,7 @@ const Heroe = ({ user }) => {
             {user ? `votre classe. ` : `chaque classe !`}
             Cette application vous permet de voter pour les enseignants qui vous
             ont le plus inspirés, motivés et aidés dans votre parcours
-            académique. Exprimez votre reconnaissance en soutenant vos
-            enseignants préférés et contribuez à reconnaître leur dévouement
-            exceptionnel envers l'éducation.
+            académique.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             {user ? (

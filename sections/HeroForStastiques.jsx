@@ -45,7 +45,7 @@ const HeroForStastiques = ({ user }) => {
               value={professors}
               emptyMessage="Aucun professeur trouvé"
             >
-              <Column field="firstName" header="Nom du Professeur" />
+              <Column field="name" header="Nom du Professeur" />
               <Column field="totalVotes" header="Nombre total de Votes" />
               <Column field="averageRating" header="Note Moyenne" />
               <Column field="userRating" header="Votre Note" />
