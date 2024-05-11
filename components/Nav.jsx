@@ -14,7 +14,6 @@ const navigation = [
   { name: "À propos", href: "/about" },
   { name: "Votes", href: "/votes" },
   { name: "Statistiques", href: "/statistiques" },
-  { name: "Marketplace", href: "#" },
 ];
 
 const items = [
@@ -54,10 +53,11 @@ export default function NavBar({ user }) {
             <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <Image
-                width={50}
-                height={50}
+                width={100}
+                height={100}
+                style={{ borderRadius: "50%" }}
                 className="h-8 w-auto"
-                src="/vercel.svg"
+                src="/logo.jpg"
                 alt=""
               />
             </Link>
@@ -111,10 +111,11 @@ export default function NavBar({ user }) {
               <Link href="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
                 <Image
-                  width={50}
-                  height={50}
+                  width={100}
+                  height={100}
+                  style={{ borderRadius: "50%" }}
                   className="h-8 w-auto"
-                  src="/vercel.svg"
+                  src="/logo.jpg"
                   alt=""
                 />
               </Link>

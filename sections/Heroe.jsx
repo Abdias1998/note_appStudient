@@ -19,14 +19,14 @@ const Heroe = ({ user }) => {
       <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            Élection des Meilleurs Professeurs{" "}
+            Note des Meilleurs Professeurs{" "}
             {user &&
               `de la classe de ${user.classe} ${user.serie} ${user.type}`}
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Participez à l'élection des meilleurs professeurs de{" "}
+            Donnez une note pour les professeurs selon l'impact{" "}
             {user ? `votre classe. ` : `chaque classe !`}
-            Cette application vous permet de voter pour les enseignants qui vous
+            Cette application vous permet de noter pour les enseignants qui vous
             ont le plus inspirés, motivés et aidés dans votre parcours
             académique.
           </p>
