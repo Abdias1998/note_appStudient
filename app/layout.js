@@ -7,7 +7,7 @@ import "primeicons/primeicons.css";
 // import "primeflex/primeflex.css";
 
 export const metadata = {
-  title: "Ekpan",
+  title: "Note Hooo",
   description:
     "Une application de note en ligne pour noter et choisir le meilleur professur dans chaque classe",
 };
