@@ -66,11 +66,7 @@ const VoteCard = ({ user }) => {
         [id]: false, // Désactiver le chargement pour ce professeur
       }));
 
-      sendrequest().then((datas) => {
-        dispatch(getAllprofs(datas));
-      });
-
-      // openModal(response.data.message);
+      openModal(response.data.message);
     } catch (error) {
       console.error("Erreur lors du vote :", error);
       setLoadingState((prevLoadingState) => ({
