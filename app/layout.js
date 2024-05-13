@@ -4,6 +4,7 @@ import "./globals.css";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import { Providers } from "@/GlobalRedux/provider";
 // import "primeflex/primeflex.css";
 
 export const metadata = {
@@ -17,10 +18,13 @@ export const metadata = {
   <meta name="viewport" content="initial-scale=1, width=device-width" />
 </Head>; */
 }
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

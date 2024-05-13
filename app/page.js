@@ -10,11 +10,19 @@ import Footer from "@/components/Footer";
 import CardForLandingPage from "@/sections/CardForLandingPage";
 import Team from "@/sections/Team";
 
-export default function Home() {
-  const [userId, setUserId] = useState(null);
-  const [user, setUser] = useState(null);
-  console.log(user);
+import { setGetUser } from "@/features/user.reducers";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllprofs } from "@/features/prof.reducers";
 
+export default function Home() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user?.user);
+  const etat = user.etat;
+  const classe = user.classe;
+  const type = user.classe;
+  const serie = user.serie;
+  const userId = user._id;
+  console.log(classe);
   useEffect(() => {
     // Extraire userId du cookie
     const cookieValue = document.cookie
@@ -28,8 +36,8 @@ export default function Home() {
         .get(`${process.env.NEXT_PUBLIC_APP_USER}/${cookieValue}`)
         .then((response) => {
           // Gérer la réponse de l'API
-          console.log(response.data);
-          setUser(response.data.user);
+          // console.log(response.data);
+          dispatch(setGetUser(response.data.user));
 
           // Mettre à jour l'état avec les données de l'utilisateur
           // Exemple: setUserId(response.data.user._id);
@@ -40,12 +48,12 @@ export default function Home() {
         });
     }
   }, []); // Le tableau vide [] assure que useEffect s'exécute une seule fois après le montage du composant
+
   return (
     <>
-      <Nav user={user} />
-
-      <Heroe user={user} />
-      {user && <CardForLandingPage user={user} />}
+      <Nav />
+      <Heroe />
+      {user && <CardForLandingPage />}
 
       <Features />
       <Team />

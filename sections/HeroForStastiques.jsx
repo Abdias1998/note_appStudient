@@ -5,29 +5,17 @@ import axios from "axios";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Card } from "primereact/card";
-const HeroForStastiques = ({ user }) => {
+import { useSelector } from "react-redux";
+const HeroForStastiques = () => {
   const [professors, setProfessors] = useState(null);
   const [loading, setLoading] = useState(true);
+  const user = useSelector((state) => state.user?.user);
+  const profs = useSelector((state) => state.profs?.profs);
   useEffect(() => {
-    if (user) {
-      axios
-        .post(`${process.env.NEXT_PUBLIC_APP_PROF}/find`, {
-          etat: user.etat,
-          classe: user.classe,
-          type: user.type,
-          serie: user.serie,
-          userId: user._id,
-        })
-        .then((response) => {
-          setProfessors(response.data);
-          setLoading(false);
-        })
-
-        .catch((error) => {
-          console.error("Erreur lors de la requête GET:", error);
-        });
+    if (user && profs.length > 0) {
+      setLoading(false);
     }
-  }, [user]);
+  }, [user, profs]);
 
   return (
     <div className="p-grid p-dir-col p-align-center">
@@ -41,10 +29,7 @@ const HeroForStastiques = ({ user }) => {
           <ProgressSpinner style={{ width: "50px", height: "50px" }} />
         ) : (
           <Card>
-            <DataTable
-              value={professors}
-              emptyMessage="Aucun professeur trouvé"
-            >
+            <DataTable value={profs} emptyMessage="Aucun professeur trouvé">
               <Column field="name" header="Nom du Professeur" />
               <Column field="totalVotes" header="Nombre total de Votes" />
               <Column field="averageRating" header="Note Moyenne" />

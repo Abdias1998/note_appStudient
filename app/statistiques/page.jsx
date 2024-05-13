@@ -8,9 +8,11 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Card } from "primereact/card";
 import NavBar from "@/components/Nav";
 import HeroForStastiques from "@/sections/HeroForStastiques";
+import { useDispatch } from "react-redux";
+import { setGetUser } from "@/features/user.reducers";
 
-const StatisticsPage = ({ userId }) => {
-  const [user, setUser] = useState(null);
+const StatisticsPage = () => {
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Extraire userId du cookie
@@ -22,12 +24,11 @@ const StatisticsPage = ({ userId }) => {
     if (cookieValue) {
       // Effectuer la requête GET vers l'API avec userId extrait
       axios
-        // .get(`https://backendnote-zul9.onrender.com/api/user/${cookieValue}`)
         .get(`${process.env.NEXT_PUBLIC_APP_USER}/${cookieValue}`)
         .then((response) => {
           // Gérer la réponse de l'API
           // console.log(response.data);
-          setUser(response.data.user);
+          dispatch(setGetUser(response.data.user));
 
           // Mettre à jour l'état avec les données de l'utilisateur
           // Exemple: setUserId(response.data.user._id);
@@ -37,17 +38,17 @@ const StatisticsPage = ({ userId }) => {
           console.error("Erreur lors de la requête GET:", error);
         });
     }
-  }, []);
+  }, []); // Le tableau vide [] assure que useEffect s'exécute une seule fois après le montage du composant
 
   return (
     <div>
-      <NavBar user={user} />
+      <NavBar />
       <br />
       <br />
       <br />
       <br />
       <br />
-      <HeroForStastiques user={user} />
+      <HeroForStastiques />
     </div>
   );
 };

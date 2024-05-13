@@ -1,7 +1,9 @@
 import Link from "next/link";
 import React from "react";
+import { useSelector } from "react-redux";
 
-const Heroe = ({ user }) => {
+const Heroe = () => {
+  const user = useSelector((state) => state.user?.user);
   return (
     <div className="relative isolate px-6 pt-14 lg:px-8 ">
       <div

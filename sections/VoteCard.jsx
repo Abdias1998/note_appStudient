@@ -8,6 +8,9 @@ import { filterNotesByStudentId } from "@/utils/hook";
 import { Button } from "primereact/button";
 import { Rating } from "primereact/rating";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { addprofs, getAllprofs } from "@/features/prof.reducers";
+// import { addsortedData, getAllsortedData } from "@/features/prof.reducers";
 
 const customStyles = {
   content: {
@@ -21,13 +24,14 @@ const customStyles = {
 };
 
 const VoteCard = ({ user }) => {
-  const [profData, setProfData] = useState(null);
+  const profs = useSelector((state) => state.profs?.profs);
   const [ratings, setRatings] = useState({});
   const [loadingState, setLoadingState] = useState({}); // État de chargement spécifique à chaque professeur
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [tabNote, setTabNote] = useState();
-  console.log(profData);
+  const dispatch = useDispatch();
+  // console.log(profData);
   const openModal = (content) => {
     setModalContent(content);
     setIsOpen(true);
@@ -61,7 +65,12 @@ const VoteCard = ({ user }) => {
         ...prevLoadingState,
         [id]: false, // Désactiver le chargement pour ce professeur
       }));
-      openModal(response.data.message);
+
+      sendrequest().then((datas) => {
+        dispatch(getAllprofs(datas));
+      });
+
+      // openModal(response.data.message);
     } catch (error) {
       console.error("Erreur lors du vote :", error);
       setLoadingState((prevLoadingState) => ({
@@ -72,6 +81,23 @@ const VoteCard = ({ user }) => {
     }
   };
 
+  const sendrequest = async () => {
+    const response = axios.post(`${process.env.NEXT_PUBLIC_APP_PROF}/find`, {
+      etat: user.etat,
+      classe: user.classe,
+      type: user.type,
+      serie: user.serie,
+      userId: user._id,
+    });
+
+    const datas = await response.data;
+    return datas;
+  };
+  // useEffect(() => {
+  //   sendrequest().then((datas) => {
+  //     dispatch(getAllprofs(datas));
+  //   });
+  // });
   useEffect(() => {
     if (user) {
       axios
@@ -83,7 +109,7 @@ const VoteCard = ({ user }) => {
           userId: user._id,
         })
         .then((response) => {
-          setProfData(response.data);
+          dispatch(getAllprofs(response.data));
 
           //   console.log(tabNote);
         })
@@ -93,81 +119,79 @@ const VoteCard = ({ user }) => {
         });
     }
   }, [user]);
-
+  const sortedData = profs
+    ? [...profs].sort((a, b) => a.firstName.localeCompare(b.firstName))
+    : [];
   return (
     <>
-      {user ? (
-        profData === null ? (
-          <>
-            {[...Array(3)].map((_, index) => (
-              <div
-                key={index}
-                className="bg-white shadow-lg rounded-lg p-6 mb-3"
-              >
-                <div className="flex justify-between ">
-                  <div className="text-xl font-semibold">
-                    <Skeleton width="100px" />
-                  </div>
-                  <div className="text-gray-600">
-                    <Skeleton width="50px" />
-                  </div>
+      {!sortedData ? (
+        <>
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="bg-white shadow-lg rounded-lg p-6 mb-3">
+              <div className="flex justify-between ">
+                <div className="text-xl font-semibold">
+                  <Skeleton width="100px" />
                 </div>
-                <div className="text-gray-600 mb-2">
-                  <Skeleton width="80%" />
-                </div>
-                <div className="flex justify-center space-x-1 mb-4 text-3xl">
-                  <Skeleton shape="circle" size="100px" />
-                </div>
-                <div className="flex justify-center  space-x-1 mb-4 text-3xl">
-                  {[...Array(5)].map((_, index) => (
-                    <Skeleton key={index} width="30px" />
-                  ))}
-                </div>
-                <div className="flex justify-center space-x-1 mb-4 text-2xl">
+                <div className="text-gray-600">
                   <Skeleton width="50px" />
                 </div>
               </div>
-            ))}
-          </>
-        ) : (
-          profData?.map((prof) => (
-            <div
-              key={prof._id}
-              className="bg-white shadow-lg rounded-lg p-6 mb-3"
-            >
-              <div className="flex justify-between">
-                <div className="text-xl font-semibold">{`${
-                  prof.sexe === "M" ? "Mr " : "Mme "
-                }${prof.firstName} ${prof.lastName}`}</div>
-                <div className="text-gray-600">{prof.etat}</div>
-              </div>
-              <div className="text-gray-600 mb-2">{prof.cours}</div>
-              <div className="flex justify-center space-x-1 mb-4 text-3xl">
-                <Image
-                  width={100}
-                  height={100}
-                  style={{ borderRadius: "100%" }}
-                  src={prof.sexe === "M" ? "/user-h.webp" : "/user-f.webp"}
-                  alt=""
-                />
+              <div className="text-gray-600 mb-2">
+                <Skeleton width="80%" />
               </div>
               <div className="flex justify-center space-x-1 mb-4 text-3xl">
-                <Rating
-                  // value={ratings[prof._id]}
-                  readOnly={false}
-                  value={
-                    prof.userRating
-                      ? Math.round(prof.averageRating)
-                      : ratings[prof._id]
-                  }
-                  onChange={(e) =>
-                    handleRatingChange({ ...ratings, [prof._id]: e.value })
-                  }
-                  cancel={false}
-                />
+                <Skeleton shape="circle" size="100px" />
+              </div>
+              <div className="flex justify-center  space-x-1 mb-4 text-3xl">
+                {[...Array(5)].map((_, index) => (
+                  <Skeleton key={index} width="30px" />
+                ))}
               </div>
               <div className="flex justify-center space-x-1 mb-4 text-2xl">
-                {/* <p>
+                <Skeleton width="50px" />
+              </div>
+            </div>
+          ))}
+        </>
+      ) : (
+        sortedData?.map((prof) => (
+          <div
+            key={prof?._id}
+            className="bg-white shadow-lg rounded-lg p-6 mb-3"
+          >
+            <div className="flex justify-between">
+              <div className="text-xl font-semibold">{`${
+                prof?.sexe === "M" ? "Mr " : "Mme "
+              }${prof?.name}`}</div>
+              <div className="text-gray-600">{prof?.etat}</div>
+            </div>
+            <div className="text-gray-600 mb-2">{prof?.cours}</div>
+            <div className="flex justify-center space-x-1 mb-4 text-3xl">
+              <Image
+                width={100}
+                height={100}
+                style={{ borderRadius: "100%" }}
+                src={prof?.sexe === "M" ? "/user-h.webp" : "/user-f.webp"}
+                alt=""
+              />
+            </div>
+            <div className="flex justify-center space-x-1 mb-4 text-3xl">
+              <Rating
+                // value={ratings[prof._id]}
+                readOnly={false}
+                value={
+                  prof?.userRating
+                    ? Math.round(prof?.averageRating)
+                    : ratings[prof?._id]
+                }
+                onChange={(e) =>
+                  handleRatingChange({ ...ratings, [prof?._id]: e.value })
+                }
+                cancel={false}
+              />
+            </div>
+            <div className="flex justify-center space-x-1 mb-4 text-2xl">
+              {/* <p>
                 {prof.rating?.reduce(
                   (sum, item) => sum + item.valueNote / prof.rating?.length,
                   0
@@ -175,43 +199,40 @@ const VoteCard = ({ user }) => {
                 /5
               </p> */}
 
-                <p className="text-xl font-bold">
-                  {prof.averageRating
-                    ? prof.averageRating + "/5"
-                    : "Aucun vote"}
-                </p>
-              </div>
-              <div className="flex justify-center mb-4">
-                {loadingState[prof._id] ? (
-                  <ProgressSpinner
-                    style={{ width: "30px", height: "30px" }}
-                    strokeWidth="8"
-                    fill="var(--surface-ground)"
-                    animationDuration=".5s"
-                  />
-                ) : prof.averageRating ? (
-                  <button
-                    onClick={() => handleVote(prof._id)}
-                    className={`bg-red-500 text-white py-2 px-4 rounded`}
-                    disabled // Désactiver le bouton si le chargement est en cours pour ce professeur
-                  >
-                    Votre note est de {prof.userRating}/5
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleVote(prof._id)}
-                    className={`bg-blue-500 text-white py-2 px-4 rounded`}
-                    disabled={loadingState[prof._id]} // Désactiver le bouton si le chargement est en cours pour ce professeur
-                  >
-                    Vote
-                  </button>
-                )}
-              </div>
+              <p className="text-xl font-bold">
+                {prof?.averageRating
+                  ? prof?.averageRating + "/5"
+                  : "Soyez le premier à noter "}
+              </p>
             </div>
-          ))
-        )
-      ) : (
-        <Link href="/login">Connectez-vous maintenant</Link>
+            <div className="flex justify-center mb-4">
+              {loadingState[prof?._id] ? (
+                <ProgressSpinner
+                  style={{ width: "30px", height: "30px" }}
+                  strokeWidth="8"
+                  fill="var(--surface-ground)"
+                  animationDuration=".5s"
+                />
+              ) : prof?.averageRating ? (
+                <button
+                  onClick={() => handleVote(prof?._id)}
+                  className={`bg-red-500 text-white py-2 px-4 rounded`}
+                  disabled // Désactiver le bouton si le chargement est en cours pour ce professeur
+                >
+                  Votre note pour ce professeur est de {prof?.userRating}/5
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleVote(prof?._id)}
+                  className={`bg-blue-500 text-white py-2 px-4 rounded`}
+                  disabled={loadingState[prof?._id]} // Désactiver le bouton si le chargement est en cours pour ce professeur
+                >
+                  Note
+                </button>
+              )}
+            </div>
+          </div>
+        ))
       )}
       <Modal
         isOpen={modalIsOpen}

@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Avatar } from "primereact/avatar";
 import { PanelMenu } from "primereact/panelmenu";
 import { Toast } from "primereact/toast";
+import { useSelector } from "react-redux";
 
 const navigation = [
   { name: "À propos", href: "/about" },
@@ -38,10 +39,10 @@ const signOut = () => {
   window.location.href = "/login";
 };
 
-export default function NavBar({ user }) {
+export default function NavBar() {
   const toast = useRef(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const user = useSelector((state) => state.user?.user);
   return (
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">

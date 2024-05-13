@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 
 import { Skeleton } from "primereact/skeleton";
 import { Button } from "@headlessui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllprofs } from "@/features/prof.reducers";
+import Link from "next/link";
 
 // Exemple de données
 const professorsData = [
@@ -22,9 +25,11 @@ const professorsData = [
 
 const pageSize = 3; // Nombre de cartes par page
 
-const CardForLandingPage = ({ user }) => {
+const CardForLandingPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [profData, setProfData] = useState(null);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user?.user);
+  const profs = useSelector((state) => state.profs?.profs);
   const classe = user.classe;
   const serie = user.serie;
   const type = user.type;
@@ -58,7 +63,8 @@ const CardForLandingPage = ({ user }) => {
         .then((response) => {
           // Gérer la réponse de l'API
           // console.log(response.data);
-          setProfData(response.data);
+          dispatch(getAllprofs(response.data));
+          console.log(profs);
           // Mettre à jour l'état avec les données de l'utilisateur
           // Exemple: setUserId(response.data.user._id);
         })
@@ -72,13 +78,13 @@ const CardForLandingPage = ({ user }) => {
     <div>
       <h1 className="text-3xl font-bold mb-4 text-center">
         Liste des professeurs les plus admiré de la {user.classe} au {user.etat}{" "}
-        série {serie} {type}
+        série {user.serie} {user.type}
       </h1>
 
-      {profData?.length > 0 ? (
+      {profs?.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {profData?.slice(startIndex, endIndex).map((professor, index) => (
+            {profs?.slice(startIndex, endIndex).map((professor, index) => (
               <div
                 key={startIndex + index}
                 className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center"
@@ -122,7 +128,10 @@ const CardForLandingPage = ({ user }) => {
                   <span>{professor.cours}</span>
                 </div>
                 <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-                  Voir les stats
+                  <Link style={{ textDecoration: "none" }} href="/statistiques">
+                    {" "}
+                    Voir les stats
+                  </Link>
                 </button>
               </div>
             ))}
@@ -141,9 +150,9 @@ const CardForLandingPage = ({ user }) => {
             </button>
             <button
               onClick={nextPage}
-              disabled={endIndex >= profData?.length}
+              disabled={endIndex >= profs?.length}
               className={`px-4 py-2 rounded-md ${
-                endIndex >= profData?.length
+                endIndex >= profs?.length
                   ? "bg-gray-300 cursor-not-allowed"
                   : "bg-blue-500 hover:bg-blue-600 text-white"
               }`}

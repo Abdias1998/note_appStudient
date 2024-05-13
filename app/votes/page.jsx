@@ -1,12 +1,16 @@
 "use client";
 import NavBar from "@/components/Nav";
+import { getAllprofs } from "@/features/prof.reducers";
+import { setGetUser } from "@/features/user.reducers";
 import VoteCard from "@/sections/VoteCard";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const VotePage = () => {
-  const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.user?.user);
 
+  const dispatch = useDispatch();
   useEffect(() => {
     // Extraire userId du cookie
     const cookieValue = document.cookie
@@ -17,13 +21,12 @@ const VotePage = () => {
     if (cookieValue) {
       // Effectuer la requête GET vers l'API avec userId extrait
       axios
-        // .get(`https://backendnote-zul9.onrender.com/api/user/${cookieValue}`)
         .get(`${process.env.NEXT_PUBLIC_APP_USER}/${cookieValue}`)
         .then((response) => {
           // Gérer la réponse de l'API
-          //   console.log(response.data);
-          setUser(response.data.user);
-          // console.log(user);
+          // console.log(response.data);
+          dispatch(setGetUser(response.data.user));
+
           // Mettre à jour l'état avec les données de l'utilisateur
           // Exemple: setUserId(response.data.user._id);
         })
@@ -33,10 +36,32 @@ const VotePage = () => {
         });
     }
   }, []);
+  // Le tableau vide [] assure que useEffect s'exécute une seule fois après l
+  // useEffect(() => {
+  //   if (user) {
+  //     axios
+  //       .post(`${process.env.NEXT_PUBLIC_APP_PROF}/find`, {
+  //         etat: user.etat,
+  //         classe: user.classe,
+  //         type: user.type,
+  //         serie: user.serie,
+  //         userId: user._id,
+  //       })
+  //       .then((response) => {
+  //         dispatch(getAllprofs(response.data));
+
+  //         //   console.log(tabNote);
+  //       })
+
+  //       .catch((error) => {
+  //         console.error("Erreur lors de la requête GET:", error);
+  //       });
+  //   }
+  // }, [user]);
 
   return (
     <div>
-      <NavBar user={user} />
+      <NavBar />
       <br />
       <br />
       <br />
