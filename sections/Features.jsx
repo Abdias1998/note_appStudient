@@ -9,35 +9,35 @@ const features = [
   {
     name: "Se connecter",
     description: "Connectez-vous à votre compte étudiant",
-    icon: CloudArrowUpIcon,
+    icon: "pi pi-check",
   },
   {
-    name: "Sele",
+    name: "Sélectionner la classe",
     description: "Sélectionnez la classe pour laquelle vous souhaitez voter.",
-    icon: LockClosedIcon,
+    icon: "pi pi-check",
   },
   {
-    name: "Simple queues",
+    name: "Consulter les professeurs",
     description:
       "Consultez la liste des professeurs éligibles et lisez leurs profils.",
-    icon: ArrowPathIcon,
+    icon: "pi pi-check",
   },
   {
-    name: "Advanced security",
+    name: "Voter",
     description:
       "Votez pour votre professeur préféré en appuyant sur le bouton 'Voter'.",
-    icon: FingerPrintIcon,
+    icon: "pi pi-check",
   },
   {
-    name: "Advanced security",
+    name: "Un vote par classe",
     description: "Vous pouvez voter pour un seul professeur par classe.",
-    icon: FingerPrintIcon,
+    icon: "pi pi-check",
   },
   {
-    name: "Advanced security",
+    name: "Partager votre vote",
     description:
       "Partagez votre vote sur les réseaux sociaux pour encourager vos camarades à participer !",
-    icon: FingerPrintIcon,
+    icon: "pi pi-check",
   },
 ];
 
@@ -47,15 +47,15 @@ export default function Features() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
-            Deploy faster
+            Notation des Professeurs
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Everything you need to deploy your app
+            Tout ce dont vous avez besoin pour évaluer vos professeurs
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
-            Suspendisse eget egestas a elementum pulvinar et feugiat blandit at.
-            In mi viverra elit nunc.
+            Participez à l'amélioration de l'enseignement en partageant votre
+            avis sur vos professeurs. Suivez les étapes ci-dessous pour
+            commencer.
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
@@ -64,10 +64,7 @@ export default function Features() {
               <div key={feature.name} className="relative pl-16">
                 <dt className="text-base font-semibold leading-7 text-gray-900">
                   <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                    <feature.icon
-                      className="h-6 w-6 text-white"
-                      aria-hidden="true"
-                    />
+                    <i className={feature.icon} aria-hidden="true"></i>
                   </div>
                   {feature.name}
                 </dt>

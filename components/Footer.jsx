@@ -1,3 +1,5 @@
+// import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-800">
@@ -51,33 +53,15 @@ const Footer = () => {
             <div className="mt-4 flex space-x-4">
               <a href="#" className="text-gray-300 hover:text-white">
                 <span className="sr-only">Facebook</span>
-                <svg
-                  className="h-6 w-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  {/* Facebook icon */}
-                </svg>
+                <i className="h-6 w-6"></i>
               </a>
               <a href="#" className="text-gray-300 hover:text-white">
                 <span className="sr-only">Twitter</span>
-                <svg
-                  className="h-6 w-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  {/* Twitter icon */}
-                </svg>
+                <i className="h-6 w-6"></i>
               </a>
               <a href="#" className="text-gray-300 hover:text-white">
                 <span className="sr-only">Instagram</span>
-                <svg
-                  className="h-6 w-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  {/* Instagram icon */}
-                </svg>
+                <i className="h-6 w-6"></i>
               </a>
             </div>
           </div>

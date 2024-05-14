@@ -15,6 +15,8 @@ const navigation = [
   { name: "À propos", href: "/about" },
   { name: "Votes", href: "/votes" },
   { name: "Statistiques", href: "/statistiques" },
+  { name: "Contactez-nous", href: "/contact" },
+  { name: "Politique de confidentialité", href: "/confidentialite" },
 ];
 
 const items = [

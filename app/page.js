@@ -53,7 +53,7 @@ export default function Home() {
     <>
       <Nav />
       <Heroe />
-      {user && <CardForLandingPage />}
+      {<CardForLandingPage />}
 
       <Features />
       <Team />
