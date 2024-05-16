@@ -21,15 +21,14 @@ const Heroe = () => {
       <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            Exprimez-vous : Notez Vos Professeurs et Améliorez Votre Expérience
-            Éducative
-            {user &&
-              ` Note des Meilleurs Professeurs de la classe de ${user.classe} ${user.serie} ${user.type}`}
+            {user
+              ? ` Note des Meilleurs Professeurs de la classe de ${user.classe} ${user.serie} ${user.type}`
+              : `Améliorez Votre Expérience Éducative`}
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Donnez une note pour les professeurs selon l'impact . Cette
-            application vous permet de noter pour les enseignants qui vous ont
-            le plus inspirés, motivés et aidés dans votre parcours académique.
+            Cette application vous permet de noter pour les enseignants qui vous
+            ont le plus inspirés, motivés et aidés dans votre parcours
+            académique.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             {user ? (
@@ -47,12 +46,12 @@ const Heroe = () => {
                 Commencer
               </Link>
             )}
-            <a
-              href="#"
+            <Link
+              href="/about"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               En savoir plus <span aria-hidden="true">→</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

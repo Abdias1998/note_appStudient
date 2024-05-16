@@ -3,52 +3,44 @@ import React from "react";
 
 const AboutPage = () => {
   return (
-    <>
+    <div>
       <NavBar />
-      <div className="container mx-auto mt-12 px-4 py-8">
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">
-          À propos de notre application de prise de notes en ligne
+          À propos de notre application de notation des professeurs
         </h1>
         <p className="text-lg mb-4">
-          Notre application de prise de notes en ligne est conçue pour vous
-          aider à organiser vos idées, vos tâches et vos projets de manière
-          efficace et simple. Que vous soyez un étudiant, un professionnel ou
-          simplement quelqu'un qui aime rester organisé, notre application est
-          là pour vous aider.
+          Notre application de notation des professeurs est conçue pour
+          permettre aux étudiants de donner leur avis sur les enseignants. Nous
+          croyons que la rétroaction des étudiants est essentielle pour
+          améliorer la qualité de l'enseignement et créer un environnement
+          d'apprentissage optimal.
         </p>
-        <h2 className="text-xl font-semibold mb-2">
-          Fonctionnalités principales :
-        </h2>
-        <ul className="list-disc pl-6 mb-4">
-          <li>Création, modification et suppression de notes</li>
-          <li>Organisation des notes par catégories ou étiquettes</li>
-          <li>Partage de notes avec d'autres utilisateurs</li>
-          <li>Synchronisation sur plusieurs appareils</li>
-          <li>Protection des données avec un cryptage sécurisé</li>
-        </ul>
-        <h2 className="text-xl font-semibold mb-2">Notre équipe :</h2>
-        <p className="mb-4">
-          Notre équipe est composée de développeurs passionnés par la création
-          d'outils qui simplifient la vie quotidienne de nos utilisateurs. Nous
-          nous engageons à fournir une expérience utilisateur exceptionnelle et
-          à améliorer constamment notre application en fonction des retours de
-          nos utilisateurs.
+        <p className="text-lg mb-4">
+          Avec notre application, les étudiants peuvent facilement trouver les
+          professeurs éligibles, consulter leurs profils, et voter pour leurs
+          préférés. Nous encourageons également les étudiants à partager leurs
+          expériences sur les réseaux sociaux pour encourager leurs camarades à
+          participer.
         </p>
-        <h2 className="text-xl font-semibold mb-2">Contactez-nous :</h2>
-        <p className="mb-4">
-          Si vous avez des questions, des commentaires ou des suggestions,
-          n'hésitez pas à nous contacter. Nous sommes toujours heureux
-          d'entendre parler de votre expérience avec notre application et
-          d'aider de quelque manière que ce soit.
+        <p className="text-lg mb-4">
+          Notre objectif est de créer une communauté d'apprentissage
+          collaborative où chacun peut contribuer à améliorer la qualité de
+          l'éducation. Nous croyons en la transparence, l'équité et l'engagement
+          des étudiants dans le processus d'évaluation des enseignants.
         </p>
-        <p className="mb-4">
-          Email :{" "}
-          <a href="mailto:contact@monappdenotes.com">
-            contact@monappdenotes.com
-          </a>
+        <p className="text-lg mb-4">
+          Nous sommes impatients de voir notre application bénéficier à la fois
+          aux étudiants et aux enseignants, en favorisant une culture de
+          l'excellence et de l'amélioration continue dans l'enseignement.
         </p>
       </div>
-    </>
+    </div>
   );
 };
 

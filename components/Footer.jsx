@@ -1,68 +1,85 @@
 // import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
+import Link from "next/link";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-800">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-10 md:gap-y-0">
           <div className="col-span-1">
-            <h2 className="text-lg font-semibold text-white">Company</h2>
+            <h2 className="text-lg font-semibold text-white">Plus</h2>
             <ul className="mt-4 space-y-2">
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  About Us
-                </a>
+                <Link
+                  href="/confidentialite"
+                  className="text-gray-300 hover:text-white"
+                >
+                  Politique de confidentialité
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Careers
-                </a>
+                <Link href="#equipe" className="text-gray-300 hover:text-white">
+                  L'équipe de développeurs
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Contact Us
-                </a>
+                <Link
+                  href="tel:+22953037832"
+                  className="text-gray-300 hover:text-white"
+                >
+                  Contact direct
+                </Link>
               </li>
             </ul>
           </div>
           <div className="col-span-1">
-            <h2 className="text-lg font-semibold text-white">Products</h2>
+            <h2 className="text-lg font-semibold text-white">Liens rapides</h2>
             <ul className="mt-4 space-y-2">
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Product 1
-                </a>
+                <Link href="/about" className="text-gray-300 hover:text-white">
+                  À propos
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Product 2
-                </a>
+                <Link href="/votes" className="text-gray-300 hover:text-white">
+                  Votes
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Product 3
-                </a>
+                <Link
+                  href="/statistiques"
+                  className="text-gray-300 hover:text-white"
+                >
+                  Statistiques
+                </Link>
               </li>
             </ul>
           </div>
           <div className="col-span-2 md:col-span-1 lg:col-span-2">
-            <h2 className="text-lg font-semibold text-white">Follow Us</h2>
+            <h2 className="text-lg font-semibold text-white">Suivez-nous</h2>
             <p className="mt-4 text-gray-300">
-              Stay updated with our latest news and products.
+              Restez à jour avec nos dernières nouvelles et produits.
             </p>
             <div className="mt-4 flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-white">
-                <span className="sr-only">Facebook</span>
+              <Link
+                href="https://www.facebook.com/profile.php?id=100090166686825"
+                className="text-gray-300 hover:text-white"
+              >
+                <img src="./fb.png" width={60} alt="" />
+              </Link>
+
+              <Link
+                href="https://api.whatsapp.com/send?phone=53037832&text=Bonjour Mr Adinsi Abdias,j'aimerais en savoir plus sur vos services et l'application web"
+                className="text-gray-300 hover:text-white"
+              >
+                <img src="./wh.png" width={60} alt="" />
                 <i className="h-6 w-6"></i>
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white">
-                <span className="sr-only">Twitter</span>
+              </Link>
+              <Link href="#" className="text-gray-300 hover:text-white">
+                <img src="./in.png" width={60} alt="" />
                 <i className="h-6 w-6"></i>
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white">
-                <span className="sr-only">Instagram</span>
-                <i className="h-6 w-6"></i>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
