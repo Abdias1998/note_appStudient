@@ -9,7 +9,7 @@ import { Button } from "primereact/button";
 import { Rating } from "primereact/rating";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { addprofs, getAllprofs } from "@/features/prof.reducers";
+import { addprofs, getAllprofs } from "@/GlobalRedux/features/prof.reducers";
 // import { addsortedData, getAllsortedData } from "@/features/prof.reducers";
 
 const customStyles = {
@@ -209,7 +209,7 @@ const VoteCard = ({ user }) => {
                   fill="var(--surface-ground)"
                   animationDuration=".5s"
                 />
-              ) : prof?.averageRating ? (
+              ) : prof?.userRating ? (
                 <button
                   onClick={() => handleVote(prof?._id)}
                   className={`bg-red-500 text-white py-2 px-4 rounded`}

@@ -2,8 +2,8 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 
-import userReducers from "../features/user.reducers";
-import profReducers from "../features/prof.reducers";
+import userReducers from "./features/user.reducers";
+import profReducers from "./features/prof.reducers";
 
 export default configureStore({
   reducer: {

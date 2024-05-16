@@ -10,9 +10,9 @@ import Footer from "@/components/Footer";
 import CardForLandingPage from "@/sections/CardForLandingPage";
 import Team from "@/sections/Team";
 
-import { setGetUser } from "@/features/user.reducers";
+import { setGetUser } from "@/GlobalRedux/features/user.reducers";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllprofs } from "@/features/prof.reducers";
+import { getAllprofs } from "@/GlobalRedux/features/prof.reducers";
 
 export default function Home() {
   const dispatch = useDispatch();

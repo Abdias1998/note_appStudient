@@ -9,7 +9,7 @@ import { Card } from "primereact/card";
 import NavBar from "@/components/Nav";
 import HeroForStastiques from "@/sections/HeroForStastiques";
 import { useDispatch } from "react-redux";
-import { setGetUser } from "@/features/user.reducers";
+import { setGetUser } from "@/GlobalRedux/features/user.reducers";
 
 const StatisticsPage = () => {
   const dispatch = useDispatch();

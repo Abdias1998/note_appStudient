@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "primereact/skeleton";
 import { Button } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllprofs } from "@/features/prof.reducers";
+import { getAllprofs } from "@/GlobalRedux/features/prof.reducers";
 import Link from "next/link";
 
 // Exemple de données
