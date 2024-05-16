@@ -19,8 +19,8 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#equipe" className="text-gray-300 hover:text-white">
-                  L'équipe de développeurs
+                <Link href="/faq" className="text-gray-300 hover:text-white">
+                  Faq
                 </Link>
               </li>
               <li>
@@ -66,18 +66,18 @@ const Footer = () => {
                 href="https://www.facebook.com/profile.php?id=100090166686825"
                 className="text-gray-300 hover:text-white"
               >
-                <img src="./fb.png" width={60} alt="" />
+                <img src="./fb.png" width={40} alt="" />
               </Link>
 
               <Link
                 href="https://api.whatsapp.com/send?phone=53037832&text=Bonjour Mr Adinsi Abdias,j'aimerais en savoir plus sur vos services et l'application web"
                 className="text-gray-300 hover:text-white"
               >
-                <img src="./wh.png" width={60} alt="" />
+                <img src="./wh.png" width={40} alt="" />
                 <i className="h-6 w-6"></i>
               </Link>
               <Link href="#" className="text-gray-300 hover:text-white">
-                <img src="./in.png" width={60} alt="" />
+                <img src="./in.png" width={40} alt="" />
                 <i className="h-6 w-6"></i>
               </Link>
             </div>

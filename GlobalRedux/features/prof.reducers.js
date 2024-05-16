@@ -1,24 +1,61 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-export const profsSlice = createSlice({
+// Async thunk pour récupérer les professeurs
+export const fetchProfs = createAsyncThunk("profs/fetchProfs", async (user) => {
+  const response = await axios.post(
+    `${process.env.NEXT_PUBLIC_APP_PROF}/find`,
+    {
+      etat: user.etat,
+      classe: user.classe,
+      type: user.type,
+      serie: user.serie,
+      userId: user._id,
+    }
+  );
+  return response.data;
+});
+// Async thunk pour récupérer les professeurs selon les filtres
+export const fetchFilteredProfs = createAsyncThunk(
+  "profs/fetchFilteredProfs",
+  async ({ university, classe }) => {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_APP_PROF}/findByUniversityAndClass`,
+      {
+        university,
+        classe,
+      }
+    );
+    return response.data;
+  }
+);
+const profSlice = createSlice({
   name: "profs",
-  initialState: {
-    profs: [],
-  },
+  initialState: { profs: [], status: null },
   reducers: {
-    /**Récuperer touts les profs */
-    getAllprofs: (state, { payload }) => {
-      state.profs = payload;
+    addRating: (state, action) => {
+      const { id, rating } = action.payload;
+      const profIndex = state.profs.findIndex((prof) => prof._id === id);
+      if (profIndex !== -1) {
+        state.profs[profIndex].userRating = rating;
+        state.profs[profIndex].averageRating = rating; // Mise à jour pour l'exemple, ajustez selon la logique réelle
+      }
     },
-    /**Ajouter une profs */
-    addprofs: (state, { payload }) => {
-      state.profs?.push(payload);
-    },
-    deleteprofs: (state, { payload }) => {
-      state.profs = state.profs.filter((post) => post._id !== payload);
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProfs.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchProfs.fulfilled, (state, action) => {
+        state.profs = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchProfs.rejected, (state) => {
+        state.status = "failed";
+      });
   },
 });
 
-export const { getAllprofs, addprofs } = profsSlice.actions;
-export default profsSlice.reducer;
+export const { addRating } = profSlice.actions;
+export default profSlice.reducer;

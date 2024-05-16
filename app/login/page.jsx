@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { requete } from "@/utils/requete";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 const LoginPage = () => {
@@ -18,7 +18,6 @@ const LoginPage = () => {
     setLoading(true); // Définir l'état de chargement sur vrai lors de la soumission du formulaire
     try {
       const response = await axios.post(
-        // `https://backendnote-zul9.onrender.com/api/user/login`,
         `${process.env.NEXT_PUBLIC_APP_USER}/login`,
         {
           email,
@@ -36,21 +35,24 @@ const LoginPage = () => {
         // Créer le cookie avec la date d'expiration
         document.cookie = `userId=${response.data.userId}; expires=${expirationDateString}; path=/`;
 
+        // Afficher le popup avec la réponse du serveur
+        toast.success("Connexion réussie!");
+
         router.push("/");
-        setLoading(false);
       }
     } catch (error) {
       setError(error.response.data.message);
       setLoading(false);
       setTimeout(() => {
         setError("");
-      }, 5000);
+      }, 8000);
     }
     setLoading(false); // Définir l'état de chargement sur faux après le traitement
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <ToastContainer />
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="text-center text-3xl font-extrabold text-gray-900">
           Connexion

@@ -15,10 +15,7 @@ const navigation = [
   { name: "À propos", href: "/about" },
   { name: "Votes", href: "/votes" },
   { name: "Statistiques", href: "/statistiques" },
-  {
-    name: "Contactez-nous",
-    href: "https://api.whatsapp.com/send?phone=53037832&text=Bonjour Mr Adinsi Abdias,j'aimerais en savoir plus sur vos services et l'application we",
-  },
+  { name: "Faq", href: "/faq" },
   { name: "Politique de confidentialité", href: "/confidentialite" },
 ];
 
