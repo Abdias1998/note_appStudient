@@ -1,14 +1,12 @@
 "use client";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/Nav";
-import { getAllprofs } from "@/GlobalRedux/features/prof.reducers";
-import { setGetUser } from "@/GlobalRedux/features/user.reducers";
-import VoteCard from "@/sections/VoteCard";
+import PostList from "@/sections/AvisCard";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const VotePage = () => {
+const Avis = () => {
   const user = useSelector((state) => state.user?.user);
 
   const dispatch = useDispatch();
@@ -37,41 +35,17 @@ const VotePage = () => {
         });
     }
   }, []);
-  // Le tableau vide [] assure que useEffect s'exécute une seule fois après l
-  // useEffect(() => {
-  //   if (user) {
-  //     axios
-  //       .post(`${process.env.NEXT_PUBLIC_APP_PROF}/find`, {
-  //         etat: user.etat,
-  //         classe: user.classe,
-  //         type: user.type,
-  //         serie: user.serie,
-  //         userId: user._id,
-  //       })
-  //       .then((response) => {
-  //         dispatch(getAllprofs(response.data));
-
-  //         //   console.log(tabNote);
-  //       })
-
-  //       .catch((error) => {
-  //         console.error("Erreur lors de la requête GET:", error);
-  //       });
-  //   }
-  // }, [user]);
-
   return (
     <div>
-      <NavBar />
+      <NavBar /> <br />
       <br />
       <br />
       <br />
       <br />
-      <br />
-      <VoteCard user={user} />
+      <PostList user={user} />
       <Footer />
     </div>
   );
 };
 
-export default VotePage;
+export default Avis;

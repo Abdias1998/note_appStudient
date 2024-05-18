@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Skeleton } from "primereact/skeleton";
@@ -9,6 +10,7 @@ import { Rating } from "primereact/rating";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfs, addRating } from "@/GlobalRedux/features/prof.reducers";
+import { useRouter } from "next/navigation";
 
 const customStyles = {
   content: {
@@ -29,7 +31,7 @@ const VoteCard = ({ user }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-
+  const router = useRouter();
   useEffect(() => {
     if (user) {
       dispatch(fetchProfs(user));
@@ -84,12 +86,12 @@ const VoteCard = ({ user }) => {
     ? [...profs].sort((a, b) => a.firstName.localeCompare(b.firstName))
     : [];
 
-  // Filtrer les professeurs en fonction du terme de recherche
   const filteredProfs = sortedData.filter(
     (prof) =>
       prof.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       prof.cours.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   return (
     <>
       {profs <= 0 ? (
@@ -123,8 +125,13 @@ const VoteCard = ({ user }) => {
         </>
       ) : (
         <div>
-          <div className="flex justify-center mb-4">
-            {/* Champ de saisie pour la recherche */}
+          <div className="flex justify-center gap-2 mb-4">
+            <button
+              onClick={() => router.push("/avis")}
+              className="bg-blue-500  text-white py-2 px-4 rounded"
+            >
+              Donner un avis
+            </button>
             <input
               type="text"
               placeholder="Rechercher par nom ou cours..."
@@ -133,10 +140,10 @@ const VoteCard = ({ user }) => {
               className="border border-gray-300 rounded px-4 py-2"
             />
           </div>
-          {filteredProfs.map((prof) => (
+          {filteredProfs?.map((prof) => (
             <div
               key={prof._id}
-              className="bg-white shadow-lg rounded-lg p-6 mb-3"
+              className="bg-blue-100 shadow-lg rounded-lg p-6 mb-3"
             >
               <div className="flex justify-between">
                 <div className="text-xl font-semibold">{`${
@@ -147,27 +154,41 @@ const VoteCard = ({ user }) => {
               <div className="text-gray-600 mb-2">{prof.cours}</div>
               <div className="flex justify-center space-x-1 mb-4 text-3xl">
                 <Image
-                  width={100}
-                  height={100}
+                  width={70}
+                  height={70}
                   style={{ borderRadius: "100%" }}
                   src={prof.sexe === "M" ? "/user-h.webp" : "/user-f.webp"}
                   alt=""
                 />
               </div>
-              <div className="flex justify-center space-x-1 mb-4 text-3xl">
+              <div className="flex justify-center space-x-1 mb-4 text-xl">
                 <Rating
-                  readOnly={false}
-                  value={ratings[prof._id] || prof.userRating || 0}
+                  readOnly={prof.userRating ? true : false} // Si userRating existe, le rendu sera en lecture seule (true)
+                  value={ratings[prof._id] || prof.averageRating || 0}
                   onChange={(e) => handleRatingChange(prof._id, e.value)}
                   cancel={false}
+                  stars={5}
+                  step={0.5} // Permet d'avoir des demi-étoiles
                 />
               </div>
               <div className="flex justify-center space-x-1 mb-4 text-2xl">
-                <p className="text-xl font-bold">
-                  {prof.averageRating
-                    ? `${prof.averageRating}/5`
-                    : "Soyez le premier à noter "}
-                </p>
+                {prof.averageRating ? (
+                  <>
+                    <Image
+                      width={20}
+                      height={20}
+                      // style={{ borderRadius: "50%" }}
+                      className="h-8 w-auto"
+                      src="/book.webp"
+                      alt=""
+                    />{" "}
+                    <span className="text-xl font-bold">
+                      {prof.averageRating}/5
+                    </span>
+                  </>
+                ) : (
+                  <p className="text-xl font-bold">Soyez le premier à noter</p>
+                )}
               </div>
               <div className="flex justify-center mb-4">
                 {loadingState[prof._id] ? (
@@ -178,18 +199,14 @@ const VoteCard = ({ user }) => {
                     animationDuration=".5s"
                   />
                 ) : prof.userRating ? (
-                  <button
-                    onClick={() => handleVote(prof._id)}
-                    className={`bg-red-500 text-white py-2 px-4 rounded`}
-                    disabled // Désactiver le bouton si le chargement est en cours pour ce professeur
-                  >
+                  <p className="bg-blue-500 text-white py-2 px-4" disabled>
                     Votre note pour ce professeur est de {prof.userRating}/5
-                  </button>
+                  </p>
                 ) : (
                   <button
                     onClick={() => handleVote(prof._id)}
-                    className={`bg-blue-500 text-white py-2 px-4 rounded`}
-                    disabled={loadingState[prof._id]} // Désactiver le bouton si le chargement est en cours pour ce professeur
+                    className="bg-blue-500 text-white py-2 px-4 rounded"
+                    disabled={loadingState[prof._id]}
                   >
                     Note
                   </button>

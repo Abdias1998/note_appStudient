@@ -8,10 +8,13 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Card } from "primereact/card";
 import NavBar from "@/components/Nav";
 import HeroForStastiques from "@/sections/HeroForStastiques";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setGetUser } from "@/GlobalRedux/features/user.reducers";
+import Footer from "@/components/Footer";
 
 const StatisticsPage = () => {
+  const user = useSelector((state) => state.user?.user);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,7 +51,8 @@ const StatisticsPage = () => {
       <br />
       <br />
       <br />
-      <HeroForStastiques />
+      <HeroForStastiques user={user} />
+      <Footer />
     </div>
   );
 };

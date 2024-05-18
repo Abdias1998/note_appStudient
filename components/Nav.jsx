@@ -14,9 +14,10 @@ import { useSelector } from "react-redux";
 const navigation = [
   { name: "À propos", href: "/about" },
   { name: "Votes", href: "/votes" },
+  { name: "Donner un Avis", href: "/avis" },
   { name: "Statistiques", href: "/statistiques" },
   { name: "Faq", href: "/faq" },
-  { name: "Politique de confidentialité", href: "/confidentialite" },
+  // { name: "Politique de confidentialité", href: "/confidentialite" },
 ];
 
 const items = [

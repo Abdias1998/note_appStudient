@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.profile-column {
+  background-color: #e3f2fd; /* Light blue */
+}
+
+.name-column {
+  background-color: #fce4ec; /* Light pink */
+}
+
+.votes-column {
+  background-color: #f3e5f5; /* Light purple */
+}
+
+.rating-column {
+  background-color: #e8f5e9; /* Light green */
+}
+
+.user-rating-column {
+  background-color: #fff3e0; /* Light orange */
+}
+
+/* styles.css */
+.bg-light-blue {
+  background-color: #e0f7fa; /* Light Cyan */
+}
+
+.bg-blue {
+  background-color: #2196f3; /* Blue */
+}
+
+.bg-teal {
+  background-color: #4db6ac; /* Light Teal */
+}
