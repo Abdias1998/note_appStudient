@@ -6,18 +6,26 @@ import axios from "axios";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Card } from "primereact/card";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfs } from "@/GlobalRedux/features/prof.reducers";
 
-const HeroForStastiques = ({ user }) => {
+const HeroForStastiques = () => {
   const [loading, setLoading] = useState(true);
-  // const user = useSelector((state) => state.user?.user);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user?.user);
   const profs = useSelector((state) => state.profs?.profs);
 
+  // useEffect(() => {
+  //   if (user && profs.length > 0) {
+  //     setLoading(false);
+  //   }
+  // }, [user, profs]);
   useEffect(() => {
-    if (user && profs.length > 0) {
+    if (user) {
+      dispatch(fetchProfs(user));
       setLoading(false);
     }
-  }, [user, profs]);
+  }, [user, dispatch]);
 
   // Fonction pour afficher l'image de profil en fonction du sexe
   const profileImageBodyTemplate = (rowData) => {

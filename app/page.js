@@ -12,7 +12,7 @@ import Team from "@/sections/Team";
 
 import { setGetUser } from "@/GlobalRedux/features/user.reducers";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllprofs } from "@/GlobalRedux/features/prof.reducers";
+import { fetchProfs, getAllprofs } from "@/GlobalRedux/features/prof.reducers";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -48,7 +48,11 @@ export default function Home() {
         });
     }
   }, []); // Le tableau vide [] assure que useEffect s'exécute une seule fois après le montage du composant
-
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchProfs(user));
+    }
+  }, [user, dispatch]);
   return (
     <>
       <Nav />

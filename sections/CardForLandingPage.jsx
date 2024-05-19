@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "primereact/skeleton";
 import { Button } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllprofs } from "@/GlobalRedux/features/prof.reducers";
+import { fetchProfs, getAllprofs } from "@/GlobalRedux/features/prof.reducers";
 import Link from "next/link";
 
 // Exemple de données
@@ -51,29 +51,9 @@ const CardForLandingPage = () => {
   };
   useEffect(() => {
     if (user) {
-      axios
-        // .post(`https://backendnote-zul9.onrender.com/api/prof/find`,
-        .post(`${process.env.NEXT_PUBLIC_APP_PROF}/find`, {
-          etat,
-          classe,
-          type,
-          serie,
-          userId,
-        })
-        .then((response) => {
-          // Gérer la réponse de l'API
-          // console.log(response.data);
-          dispatch(getAllprofs(response.data));
-          console.log(profs);
-          // Mettre à jour l'état avec les données de l'utilisateur
-          // Exemple: setUserId(response.data.user._id);
-        })
-        .catch((error) => {
-          // Gérer les erreurs de la requête
-          console.error("Erreur lors de la requête GET:", error);
-        });
+      dispatch(fetchProfs(user));
     }
-  }, []);
+  }, [user, dispatch]);
   return (
     <>
       {user ? (

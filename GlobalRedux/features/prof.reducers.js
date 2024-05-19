@@ -15,20 +15,7 @@ export const fetchProfs = createAsyncThunk("profs/fetchProfs", async (user) => {
   );
   return response.data;
 });
-// Async thunk pour récupérer les professeurs selon les filtres
-export const fetchFilteredProfs = createAsyncThunk(
-  "profs/fetchFilteredProfs",
-  async ({ university, classe }) => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_APP_PROF}/findByUniversityAndClass`,
-      {
-        university,
-        classe,
-      }
-    );
-    return response.data;
-  }
-);
+
 const profSlice = createSlice({
   name: "profs",
   initialState: { profs: [], status: null },
@@ -39,6 +26,13 @@ const profSlice = createSlice({
       if (profIndex !== -1) {
         state.profs[profIndex].userRating = rating;
         state.profs[profIndex].averageRating = rating; // Mise à jour pour l'exemple, ajustez selon la logique réelle
+      }
+    },
+    addComment: (state, action) => {
+      const { postId, comment } = action.payload;
+      const post = state.profs.find((prof) => prof._id === postId);
+      if (post) {
+        post.comments = [...post.comments, comment];
       }
     },
   },
@@ -57,5 +51,5 @@ const profSlice = createSlice({
   },
 });
 
-export const { addRating } = profSlice.actions;
+export const { addRating, addComment } = profSlice.actions;
 export default profSlice.reducer;
