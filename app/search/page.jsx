@@ -1,13 +1,14 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 import { fetchProfs } from "@/GlobalRedux/features/prof.reducers";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import NavBar from "@/components/Nav";
+import { Spinner } from "@chakra-ui/react";
 
 const Post = ({ post }) => {
   const renderStars = (rating) => {
@@ -92,8 +93,8 @@ const Post = ({ post }) => {
 
 const SearchList = ({ user }) => {
   const dispatch = useDispatch();
-  //   const profs = useSelector((state) => state.profs.profs);
   const [datas, setDatas] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
     etat: "",
     classe: "",
@@ -106,30 +107,45 @@ const SearchList = ({ user }) => {
     setFilters({ ...filters, [name]: value });
   };
 
-  const fetchFilteredProfs = async () => {
+  const fetchFilteredProfs = async (filtersToUse) => {
+    setLoading(true);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_APP_PROF}/find`,
-
-        filters
+        filtersToUse
       );
       dispatch(fetchProfs(response.data));
       setDatas(response.data);
-      //   console.log(response.data);
+      setLoading(false);
     } catch (error) {
       console.error("Erreur lors de la récupération des profs filtrés:", error);
+      setLoading(false);
     }
   };
 
-  const isSearchEnabled = Object.values(filters).every((val) => val !== "");
+  const handleSearch = () => {
+    Cookies.set("searchFilters", JSON.stringify(filters), { expires: 7 });
+    fetchFilteredProfs(filters);
+  };
 
+  const isSearchEnabled = Object.values(filters).every((val) => val !== "");
+  useEffect(() => {
+    const savedFilters = Cookies.get("searchFilters");
+    if (savedFilters) {
+      const parsedFilters = JSON.parse(savedFilters);
+      console.log("Filters from cookie:", parsedFilters); // Vérifier les valeurs récupérées
+      setFilters(parsedFilters);
+      fetchFilteredProfs(parsedFilters);
+    }
+  }, []);
   return (
     <div>
-      <NavBar /> <br />
+      <NavBar />
       <br />
       <br />
       <br />
-      <br />{" "}
+      <br />
+      <br />
       <div className="container mx-auto p-4">
         <div className="mb-4">
           <select
@@ -141,7 +157,7 @@ const SearchList = ({ user }) => {
             <option value="">Sélectionner une établissement</option>
             {/* Remplacer par vos options */}
             <option value="CEG VEDOKO">CEG VEDOKO</option>
-            <option value="Ecole 2">Ecole 2</option>
+            <option value="CEG NOKOUE">CEG NOKOUE</option>
           </select>
           <select
             name="classe"
@@ -176,19 +192,23 @@ const SearchList = ({ user }) => {
             <option value="M2">M2</option>
             <option value="Type 2">Type 2</option>
           </select>
-          <button
-            onClick={fetchFilteredProfs}
-            disabled={!isSearchEnabled}
-            className={`bg-blue-500 text-white py-2 px-4 rounded mt-2 ${
-              !isSearchEnabled ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            Rechercher
-          </button>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <button
+              onClick={handleSearch}
+              disabled={!isSearchEnabled}
+              className={`bg-blue-500 text-white py-2 px-4 rounded mt-2 ${
+                !isSearchEnabled ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+            >
+              Rechercher
+            </button>
+          )}
         </div>
-        {datas?.map((post) => (
-          <Post key={post._id} post={post} />
-        ))}
+        {datas?.length >= 0
+          ? datas?.map((post) => <Post key={post._id} post={post} />)
+          : "Aucn Avis"}
       </div>
     </div>
   );
