@@ -34,9 +34,9 @@ const features = [
     icon: "pi pi-check",
   },
   {
-    name: "Partager votre vote",
+    name: "Donnez un qvis",
     description:
-      "Partagez votre vote sur les réseaux sociaux pour encourager vos camarades à participer !",
+      "Donnez un avis sur un professeur tout en laissant un commentaire",
     icon: "pi pi-check",
   },
 ];

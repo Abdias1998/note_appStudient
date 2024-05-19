@@ -5,21 +5,21 @@ const people = [
     imageUrl: "./team-h.webp",
   },
   {
-    name: "Mr Jean Adando",
-    role: "Dev Ops",
+    name: "Mr Yeme Adoris",
+    role: "Developpeur FrontEnd",
     imageUrl: "./team-h.webp",
   },
-  {
-    name: "Mme Inès Godo",
-    role: "Developpeur Backend",
-    imageUrl: "./team-f.webp",
-  },
+  // {
+  //   name: "Mme Inès Godo",
+  //   role: "Developpeur Backend",
+  //   imageUrl: "./team-f.webp",
+  // },
 
-  {
-    name: "Mme Lucinda Dodo",
-    role: "Front End Developpeur",
-    imageUrl: "./team-f.webp",
-  },
+  // {
+  //   name: "Mme Lucinda Dodo",
+  //   role: "Front End Developpeur",
+  //   imageUrl: "./team-f.webp",
+  // },
   // More people...
 ];
 

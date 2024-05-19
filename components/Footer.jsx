@@ -54,6 +54,11 @@ const Footer = () => {
                   Statistiques
                 </Link>
               </li>
+              <li>
+                <Link href="/avis" className="text-gray-300 hover:text-white">
+                  Avis
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="col-span-2 md:col-span-1 lg:col-span-2">

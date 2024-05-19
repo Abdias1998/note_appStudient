@@ -22,7 +22,7 @@ const Heroe = () => {
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             {user
-              ? ` Note des Meilleurs Professeurs de la classe de ${user.classe} ${user.serie} ${user.type}`
+              ? `Bienvennue ${user.firstName} ${user.lastName} dans l'appliaction de vote expérimental `
               : `Améliorez Votre Expérience Éducative`}
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">

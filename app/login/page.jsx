@@ -27,7 +27,7 @@ const LoginPage = () => {
       if (response.status === 200) {
         // Définir la date d'expiration du cookie dans 7 jours
         const expirationDate = new Date();
-        expirationDate.setDate(expirationDate.getDate() + 7);
+        expirationDate.setDate(expirationDate.getDate() + 21);
 
         // Formater la date d'expiration selon le format UTC
         const expirationDateString = expirationDate.toUTCString();

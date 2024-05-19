@@ -11,7 +11,8 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfs, addRating } from "@/GlobalRedux/features/prof.reducers";
 import { useRouter } from "next/navigation";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 const customStyles = {
   content: {
     top: "50%",
@@ -32,6 +33,29 @@ const VoteCard = ({ user }) => {
   const [modalContent, setModalContent] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
+
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5;
+    const stars = [];
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(
+        <FontAwesomeIcon key={i} icon={faStar} className="text-yellow-500" />
+      );
+    }
+    if (halfStar) {
+      stars.push(
+        <FontAwesomeIcon
+          key="half"
+          icon={faStarHalfAlt}
+          className="text-yellow-500"
+        />
+      );
+    }
+    return stars;
+  };
+
   useEffect(() => {
     if (user) {
       dispatch(fetchProfs(user));
@@ -162,14 +186,18 @@ const VoteCard = ({ user }) => {
                 />
               </div>
               <div className="flex justify-center space-x-1 mb-4 text-xl">
-                <Rating
-                  readOnly={prof.userRating ? true : false} // Si userRating existe, le rendu sera en lecture seule (true)
-                  value={ratings[prof._id] || prof.averageRating || 0}
-                  onChange={(e) => handleRatingChange(prof._id, e.value)}
-                  cancel={false}
-                  stars={5}
-                  step={0.5} // Permet d'avoir des demi-étoiles
-                />
+                {prof.userRating ? (
+                  <div className="flex">{renderStars(prof.averageRating)}</div>
+                ) : (
+                  <Rating
+                    readOnly={prof.userRating ? true : false} // Si userRating existe, le rendu sera en lecture seule (true)
+                    value={ratings[prof._id] || 0}
+                    onChange={(e) => handleRatingChange(prof._id, e.value)}
+                    cancel={false}
+                    stars={5}
+                    step={0.5} // Permet d'avoir des demi-étoiles
+                  />
+                )}
               </div>
               <div className="flex justify-center space-x-1 mb-4 text-2xl">
                 {prof.averageRating ? (

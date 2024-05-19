@@ -5,12 +5,43 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfs, addComment } from "@/GlobalRedux/features/prof.reducers";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Post = ({ post, handleCommentChange, handleCommentSubmit, comments }) => {
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5;
+    const stars = [];
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(
+        <FontAwesomeIcon key={i} icon={faStar} className="text-yellow-500" />
+      );
+    }
+    if (halfStar) {
+      stars.push(
+        <FontAwesomeIcon
+          key="half"
+          icon={faStarHalfAlt}
+          className="text-yellow-500"
+        />
+      );
+    }
+    return stars;
+  };
+
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 mb-3">
       <div className="mb-2">
-        <span className="text-sm font-semibold">
+        <div
+          style={{
+            display: "flex",
+
+            alignContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Image
             width={40}
             height={30}
@@ -18,16 +49,28 @@ const Post = ({ post, handleCommentChange, handleCommentSubmit, comments }) => {
             src={post.sexe === "M" ? "/user-h.webp" : "/user-f.webp"}
             alt=""
           />
-          {post.name}
-        </span>
+          <span className="text-sm font-semibold">{post.name}</span>
+        </div>
+
+        <div style={{ position: "relative" }} className="flex items-center">
+          <div
+            style={{ position: "absolute", right: "0", bottom: "20px" }}
+            className="flex"
+          >
+            <span>{renderStars(post.averageRating)}</span>
+          </div>
+        </div>
         <div
-          className={
-            post.bio
-              ? "bg-blue-300 h-32 uppercase flex justify-center m-auto"
-              : ""
-          }
+          style={{
+            alignItems: "center",
+            alignContent: "center",
+            display: "flex",
+            justifyContent: "center",
+            fontWeight: "bold",
+          }}
+          className={post.bio ? "bg-blue-300 h-32 uppercase" : ""}
         >
-          <p className={post.bio ? "text-black text-center" : "text-black"}>
+          <p className={post.bio ? "text-black " : "text-black"}>
             {post.bio ? post.bio : "Aucun bio"}
           </p>
         </div>

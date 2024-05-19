@@ -11,26 +11,11 @@ import { PanelMenu } from "primereact/panelmenu";
 import { Toast } from "primereact/toast";
 import { useSelector } from "react-redux";
 
-const navigation = [
-  { name: "À propos", href: "/about" },
-  { name: "Votes", href: "/votes" },
-  { name: "Donner un Avis", href: "/avis" },
-  { name: "Statistiques", href: "/statistiques" },
-  { name: "Faq", href: "/faq" },
-  // { name: "Politique de confidentialité", href: "/confidentialite" },
-];
-
 const items = [
   {
-    label: "",
-    icon: "pi pi-user",
-    items: [
-      {
-        label: "Déconnexion",
-        icon: "pi pi-sign-out",
-        command: () => signOut(),
-      },
-    ],
+    label: "Déconnexion",
+    icon: "pi pi-sign-out",
+    command: () => signOut(),
   },
 ];
 
@@ -46,6 +31,22 @@ export default function NavBar() {
   const toast = useRef(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const user = useSelector((state) => state.user?.user);
+  const navUserLogin = user
+    ? [
+        { name: "Votes", href: "/votes" },
+        { name: "Donner un Avis", href: "/avis" },
+        { name: "Statistiques", href: "/statistiques" },
+      ]
+    : [];
+
+  const navigation = [
+    ...navUserLogin,
+    { name: "À propos", href: "/about" },
+    { name: "Recherches", href: "/search" },
+    { name: "Faq", href: "/faq" },
+    { name: "Politique de confidentialité", href: "/confidentialite" },
+  ];
+
   return (
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
