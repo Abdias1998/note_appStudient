@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ProgressSpinner } from "primereact/progressspinner";
-
+// export const metadata = {
+//   title: "Se Connecter",
+// };
 const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -16,6 +18,15 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true); // Définir l'état de chargement sur vrai lors de la soumission du formulaire
+    if (!navigator.onLine) {
+      setLoading(false);
+      setError("Vérifiez votre connexion internet et réessayez");
+      setLoading(false);
+      setTimeout(() => {
+        setError("");
+      }, 8000);
+      return;
+    }
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_APP_USER}/login`,
@@ -41,11 +52,21 @@ const LoginPage = () => {
         router.push("/");
       }
     } catch (error) {
-      setError(error.response.data.message);
-      setLoading(false);
-      setTimeout(() => {
-        setError("");
-      }, 8000);
+      if (error.response) {
+        setError(error.response.data.message);
+        setLoading(false);
+        setTimeout(() => {
+          setError("");
+        }, 8000);
+      } else {
+        setError(
+          "Une erreur interne du serveur,veuillez réessayez plus tard !"
+        );
+        setLoading(false);
+        setTimeout(() => {
+          setError("");
+        }, 8000);
+      }
     }
     setLoading(false); // Définir l'état de chargement sur faux après le traitement
   };

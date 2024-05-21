@@ -3,11 +3,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfs, addComment } from "@/GlobalRedux/features/prof.reducers";
+import { fetchProfs, addComment } from "@/features/prof.reducers";
 import Image from "next/image";
+import Modal from "react-modal";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
-
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 const Post = ({ post, handleCommentChange, handleCommentSubmit, comments }) => {
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
@@ -47,7 +58,7 @@ const Post = ({ post, handleCommentChange, handleCommentSubmit, comments }) => {
             height={30}
             style={{ borderRadius: "100%" }}
             src={post.sexe === "M" ? "/user-h.webp" : "/user-f.webp"}
-            alt=""
+            alt={`Représentation d'image png du ${post.name}`}
           />
           <span className="text-sm font-semibold">{post.name}</span>
         </div>
@@ -107,7 +118,18 @@ const PostList = ({ user }) => {
   const dispatch = useDispatch();
   const profs = useSelector((state) => state.profs.profs);
   const [comments, setComments] = useState({});
+  const [loadingState, setLoadingState] = useState({});
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState("");
 
+  const openModal = (content) => {
+    setModalContent(content);
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   useEffect(() => {
     if (user) {
       dispatch(fetchProfs(user));
@@ -120,11 +142,20 @@ const PostList = ({ user }) => {
 
   const handleCommentSubmit = async (postId) => {
     if (!comments[postId]) {
-      alert("Le commentaire ne peut pas être vide.");
+      openModal("Le commentaire ne peut pas être vide.");
       return;
     }
 
     try {
+      if (!navigator.onLine) {
+        setLoading(false);
+        setError("Vérifiez votre connexion internet et réessayez");
+        setLoading(false);
+        setTimeout(() => {
+          setError("");
+        }, 8000);
+        return;
+      }
       const response = await axios.patch(
         `${process.env.NEXT_PUBLIC_APP_PROF}/commentPost/${postId}`,
         {
@@ -137,10 +168,10 @@ const PostList = ({ user }) => {
       dispatch(addComment({ postId, comment: response.data }));
       // Réinitialiser l'état local des commentaires pour ce post
       setComments({ ...comments, [postId]: "" });
-      alert("Commentaire ajouté");
+      openModal("Commentaire ajouté");
     } catch (error) {
       console.error("Erreur lors de l'ajout du commentaire:", error);
-      alert("Erreur lors de l'ajout du commentaire.");
+      openModal("Erreur lors de l'ajout du commentaire.");
     }
   };
 
@@ -155,6 +186,15 @@ const PostList = ({ user }) => {
           comments={comments}
         />
       ))}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Message Modal"
+      >
+        <div>{modalContent}</div>
+        <button onClick={closeModal}>Fermer</button>
+      </Modal>
     </div>
   );
 };

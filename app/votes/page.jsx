@@ -1,13 +1,15 @@
 "use client";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/Nav";
-import { getAllprofs } from "@/GlobalRedux/features/prof.reducers";
-import { setGetUser } from "@/GlobalRedux/features/user.reducers";
+import { getAllprofs } from "@/features/prof.reducers";
+import { setGetUser } from "@/features/user.reducers";
 import VoteCard from "@/sections/VoteCard";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+// export const metadata = {
+//   title: "Votes",
+// };
 const VotePage = () => {
   const user = useSelector((state) => state.user?.user);
 

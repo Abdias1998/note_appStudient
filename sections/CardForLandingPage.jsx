@@ -6,12 +6,24 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "primereact/skeleton";
 import { Button } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfs, getAllprofs } from "@/GlobalRedux/features/prof.reducers";
+import { fetchProfs, getAllprofs } from "@/features/prof.reducers";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import Modal from "react-modal";
 
+import { useRouter } from "next/navigation";
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 // Exemple de données
 const professorsData = [
   {
@@ -33,12 +45,19 @@ const CardForLandingPage = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user?.user);
   const profs = useSelector((state) => state.profs?.profs);
-  const classe = user.classe;
-  const serie = user.serie;
-  const type = user.type;
-  const etat = user.etat;
-  const userId = user._id;
 
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+
+  const openModal = (content) => {
+    setModalContent(content);
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  const router = useRouter();
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;
@@ -74,6 +93,12 @@ const CardForLandingPage = () => {
   const prevPage = () => {
     setCurrentPage(currentPage - 1);
   };
+
+  const handleLoginAvis = () => {
+    if (user) {
+      router.push("/avis");
+    } else openModal("Veuillez vous connecter d'abord !");
+  };
   useEffect(() => {
     if (user) {
       dispatch(fetchProfs(user));
@@ -103,7 +128,7 @@ const CardForLandingPage = () => {
                       }
                       width={30}
                       height={30}
-                      alt={`${professor.name} photo`}
+                      alt={`Représentation d'image png du ${professor.name}`}
                     />
                     <h2 className="text-lg font-semibold mb-1">
                       {professor.name}
@@ -189,7 +214,7 @@ const CardForLandingPage = () => {
       ) : (
         <>
           <h1 className="text-3xl font-bold mb-4 text-center">
-            Notez vos Professeurs
+            Notez et commentez
           </h1>
           <div className="flex flex-col md:flex-row">
             <div
@@ -201,16 +226,28 @@ const CardForLandingPage = () => {
                 Évaluer vos Enseignants
               </h2>
               <p className="text-lg mb-4">
-                Partagez votre avis et aidez les autres étudiants à choisir les
-                meilleurs professeurs.
+                Donnez vos avis sur un enseignant tout en restant polie dans vos
+                commentaires.
               </p>
-              <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
+              <button
+                onClick={handleLoginAvis}
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+              >
                 Donnez votre Avis
               </button>
             </div>
           </div>
         </>
       )}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Message Modal"
+      >
+        <div>{modalContent}</div>
+        <button onClick={closeModal}>Fermer</button>
+      </Modal>
     </>
   );
 };

@@ -75,7 +75,7 @@ const Footer = () => {
               </Link>
 
               <Link
-                href="https://api.whatsapp.com/send?phone=53037832&text=Bonjour Mr Adinsi Abdias,j'aimerais en savoir plus sur vos services et l'application web"
+                href="https://api.whatsapp.com/send?phone=53037832"
                 className="text-gray-300 hover:text-white"
               >
                 <img src="./wh.png" width={40} alt="" />

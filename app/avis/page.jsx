@@ -1,12 +1,14 @@
 "use client";
-import { setGetUser } from "@/GlobalRedux/features/user.reducers";
+import { setGetUser } from "@/features/user.reducers";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/Nav";
 import PostList from "@/sections/AvisCard";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+// export const metadata = {
+//   title: "Avis",
+// };
 const Avis = () => {
   const user = useSelector((state) => state.user?.user);
 

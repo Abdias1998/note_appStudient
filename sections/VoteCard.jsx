@@ -9,7 +9,7 @@ import { Button } from "primereact/button";
 import { Rating } from "primereact/rating";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfs, addRating } from "@/GlobalRedux/features/prof.reducers";
+import { fetchProfs, addRating } from "@/features/prof.reducers";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
@@ -182,7 +182,7 @@ const VoteCard = ({ user }) => {
                   height={70}
                   style={{ borderRadius: "100%" }}
                   src={prof.sexe === "M" ? "/user-h.webp" : "/user-f.webp"}
-                  alt=""
+                  alt={`Représentation d'image png du ${prof.name}`}
                 />
               </div>
               <div className="flex justify-center space-x-1 mb-4 text-xl">
@@ -208,7 +208,7 @@ const VoteCard = ({ user }) => {
                       // style={{ borderRadius: "50%" }}
                       className="h-8 w-auto"
                       src="/book.webp"
-                      alt=""
+                      alt="Book"
                     />{" "}
                     <span className="text-xl font-bold">
                       {prof.averageRating}/5
@@ -236,7 +236,7 @@ const VoteCard = ({ user }) => {
                     className="bg-blue-500 text-white py-2 px-4 rounded"
                     disabled={loadingState[prof._id]}
                   >
-                    Note
+                    Noter maintenant
                   </button>
                 )}
               </div>

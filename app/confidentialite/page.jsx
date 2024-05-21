@@ -2,6 +2,9 @@ import React from "react";
 import NavBar from "@/components/Nav";
 import Footer from "@/components/Footer";
 
+export const metadata = {
+  title: "Politique de Confidentialité",
+};
 const PrivacyPolicyPage = () => {
   return (
     <div className="bg-gray-100 min-h-screen">

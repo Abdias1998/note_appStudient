@@ -3,12 +3,33 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import { fetchProfs } from "@/GlobalRedux/features/prof.reducers";
+import { fetchProfs } from "@/features/prof.reducers";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import NavBar from "@/components/Nav";
 import { Spinner } from "@chakra-ui/react";
+
+const School = [
+  {
+    etat: "CEG VEDOKO",
+    classe: ["3e", "Tle"],
+    serie: ["B", "A", "AB"],
+    type: ["M2", "M6", "M4"],
+  },
+  {
+    etat: "CEG NOKOUE",
+    classe: ["Tle"],
+    serie: ["AB"],
+    type: ["M4"],
+  },
+  {
+    etat: "CEG LES PYLONES",
+    classe: ["3e", "Tle"],
+    serie: ["B", "AB"],
+    type: ["M2", "M6"],
+  },
+];
 
 const Post = ({ post }) => {
   const renderStars = (rating) => {
@@ -48,7 +69,7 @@ const Post = ({ post }) => {
             height={30}
             style={{ borderRadius: "100%" }}
             src={post.sexe === "M" ? "/user-h.webp" : "/user-f.webp"}
-            alt=""
+            alt={`Représentation d'image png du ${post.name}`}
           />
           <span className="text-sm font-semibold">{post.name}</span>
         </div>
@@ -95,16 +116,33 @@ const SearchList = ({ user }) => {
   const dispatch = useDispatch();
   const [datas, setDatas] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
     etat: "",
     classe: "",
     serie: "",
     type: "",
   });
+  const [classesOptions, setClassesOptions] = useState([]);
+  const [seriesOptions, setSeriesOptions] = useState([]);
+  const [typesOptions, setTypesOptions] = useState([]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters({ ...filters, [name]: value });
+
+    if (name === "etat") {
+      const selectedSchool = School.find((school) => school.etat === value);
+      if (selectedSchool) {
+        setClassesOptions(selectedSchool.classe);
+        setSeriesOptions(selectedSchool.serie);
+        setTypesOptions(selectedSchool.type);
+      } else {
+        setClassesOptions([]);
+        setSeriesOptions([]);
+        setTypesOptions([]);
+      }
+    }
   };
 
   const fetchFilteredProfs = async (filtersToUse) => {
@@ -114,6 +152,9 @@ const SearchList = ({ user }) => {
         `${process.env.NEXT_PUBLIC_APP_PROF}/find`,
         filtersToUse
       );
+      if (response.data.length <= 0)
+        setError("Aucun commentaire pour cet établissement");
+      // console.log(response);
       dispatch(fetchProfs(response.data));
       setDatas(response.data);
       setLoading(false);
@@ -155,9 +196,11 @@ const SearchList = ({ user }) => {
             className="border border-gray-300 rounded px-4 py-2 w-full mb-2"
           >
             <option value="">Sélectionner une établissement</option>
-            {/* Remplacer par vos options */}
-            <option value="CEG VEDOKO">CEG VEDOKO</option>
-            <option value="CEG NOKOUE">CEG NOKOUE</option>
+            {School.map((school) => (
+              <option key={school.etat} value={school.etat}>
+                {school.etat}
+              </option>
+            ))}
           </select>
           <select
             name="classe"
@@ -166,9 +209,11 @@ const SearchList = ({ user }) => {
             className="border border-gray-300 rounded px-4 py-2 w-full mb-2"
           >
             <option value="">Sélectionner une salle</option>
-            {/* Remplacer par vos options */}
-            <option value="Tle">Tle</option>
-            <option value="Classe 2">Classe 2</option>
+            {classesOptions.map((classe) => (
+              <option key={classe} value={classe}>
+                {classe}
+              </option>
+            ))}
           </select>
           <select
             name="serie"
@@ -177,9 +222,11 @@ const SearchList = ({ user }) => {
             className="border border-gray-300 rounded px-4 py-2 w-full mb-2"
           >
             <option value="">Sélectionner une série ou filière</option>
-            {/* Remplacer par vos options */}
-            <option value="A">A</option>
-            <option value="Série 2">Série 2</option>
+            {seriesOptions.map((serie) => (
+              <option key={serie} value={serie}>
+                {serie}
+              </option>
+            ))}
           </select>
           <select
             name="type"
@@ -188,12 +235,19 @@ const SearchList = ({ user }) => {
             className="border border-gray-300 rounded px-4 py-2 w-full mb-2"
           >
             <option value="">Sélectionner le bâtiment</option>
-            {/* Remplacer par vos options */}
-            <option value="M2">M2</option>
-            <option value="Type 2">Type 2</option>
+            {typesOptions.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
           </select>
           {loading ? (
-            <Spinner />
+            <button
+              disabled={true}
+              className={`bg-blue-500 text-white py-2 px-4 rounded mt-2 `}
+            >
+              Chargement......
+            </button>
           ) : (
             <button
               onClick={handleSearch}
@@ -208,7 +262,8 @@ const SearchList = ({ user }) => {
         </div>
         {datas?.length >= 0
           ? datas?.map((post) => <Post key={post._id} post={post} />)
-          : "Aucn Avis"}
+          : "Aucun Avis"}
+        {error && <p className="text-red-500">{error}</p>}
       </div>
     </div>
   );

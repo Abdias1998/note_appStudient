@@ -7,7 +7,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Card } from "primereact/card";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfs } from "@/GlobalRedux/features/prof.reducers";
+import { fetchProfs } from "@/features/prof.reducers";
 
 const HeroForStastiques = () => {
   const [loading, setLoading] = useState(true);

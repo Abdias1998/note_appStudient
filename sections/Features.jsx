@@ -7,37 +7,39 @@ import {
 
 const features = [
   {
-    name: "Se connecter",
-    description: "Connectez-vous à votre compte étudiant",
-    icon: "pi pi-check",
-  },
-  {
-    name: "Sélectionner la classe",
-    description: "Sélectionnez la classe pour laquelle vous souhaitez voter.",
-    icon: "pi pi-check",
+    name: "Connectez-vous à votre compte étudiant",
+    description:
+      " “Accédez facilement à votre compte étudiant en utilisant vos identifiants personnels.” “Connectez-vous rapidement et en toute sécurité grâce à cette fonctionnalité.” ",
+    icon: "pi pi-user",
   },
   {
     name: "Consulter les professeurs",
-    description:
-      "Consultez la liste des professeurs éligibles et lisez leurs profils.",
-    icon: "pi pi-check",
+    description: "Consultez la liste des professeurs ",
+    icon: "pi pi-users",
   },
   {
     name: "Voter",
     description:
-      "Votez pour votre professeur préféré en appuyant sur le bouton 'Voter'.",
+      "Soutenez vos enseignants en votant pour celui ou celle qui vous inspire le plus.",
     icon: "pi pi-check",
   },
   {
-    name: "Un vote par classe",
-    description: "Vous pouvez voter pour un seul professeur par classe.",
-    icon: "pi pi-check",
-  },
-  {
-    name: "Donnez un qvis",
+    name: "Voire le classement",
     description:
-      "Donnez un avis sur un professeur tout en laissant un commentaire",
-    icon: "pi pi-check",
+      "Vérifiez en temps réel le classement des professeurs sur la page 'Statistiques' ",
+    icon: "pi pi-eye",
+  },
+  {
+    name: "Donnez un avis",
+    description:
+      "Partagez vos impressions et expériences en laissant un avis sur la page ‘Avis’. ",
+    icon: "pi pi-book",
+  },
+  {
+    name: "Rechercher les résultats d'autres établissement ",
+    description:
+      "Élargissez vos horizons en consultant les classements d’autres établissements. ",
+    icon: "pi pi-search",
   },
 ];
 

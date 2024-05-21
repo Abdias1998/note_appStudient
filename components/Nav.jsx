@@ -40,15 +40,25 @@ export default function NavBar() {
     : [];
 
   const navigation = [
-    ...navUserLogin,
     { name: "À propos", href: "/about" },
+    ...navUserLogin,
     { name: "Recherches", href: "/search" },
     { name: "Faq", href: "/faq" },
     { name: "Politique de confidentialité", href: "/confidentialite" },
   ];
 
   return (
-    <div className="bg-white">
+    <div
+      style={{
+        position: "sticky",
+        top: "0",
+        left: "0",
+        right: "0",
+        bottom: "0",
+        zIndex: "3",
+      }}
+      className="bg-white"
+    >
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
           className="flex items-center justify-between p-6 lg:px-8"
