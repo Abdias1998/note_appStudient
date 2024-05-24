@@ -18,9 +18,9 @@ const features = [
     icon: "pi pi-users",
   },
   {
-    name: "Voter",
+    name: "Noter",
     description:
-      "Soutenez vos enseignants en votant pour celui ou celle qui vous inspire le plus.",
+      "Soutenez vos enseignants en donnant une note élevé pour celui ou celle qui vous inspire le plus.",
     icon: "pi pi-check",
   },
   {

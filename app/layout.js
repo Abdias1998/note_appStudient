@@ -20,8 +20,8 @@ export const metadata = {
   keywords: [
     "Note",
     "Etudiant",
-    "Vote professeur",
-    "Etablissement Vote",
+    "Note professeur",
+    "Etablissement Note",
     "Meilleurs professeurs",
     "notation professeur",
     "évaluation",

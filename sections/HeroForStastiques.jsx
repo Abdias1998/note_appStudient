@@ -7,7 +7,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Card } from "primereact/card";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfs } from "@/features/prof.reducers";
+import { fetchProfs } from "@/GlobalRedux/features/prof.reducers";
 
 const HeroForStastiques = () => {
   const [loading, setLoading] = useState(true);
@@ -79,8 +79,8 @@ const HeroForStastiques = () => {
                 className="name-column"
               />
               <Column
-                field="totalVotes"
-                header="Nombre total de Votes"
+                field="totalNotes"
+                header="Nombre total de Notes"
                 className="votes-column"
               />
               <Column

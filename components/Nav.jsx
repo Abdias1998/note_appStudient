@@ -33,7 +33,7 @@ export default function NavBar() {
   const user = useSelector((state) => state.user?.user);
   const navUserLogin = user
     ? [
-        { name: "Votes", href: "/votes" },
+        { name: "Notes", href: "/notes" },
         { name: "Donner un Avis", href: "/avis" },
         { name: "Statistiques", href: "/statistiques" },
       ]

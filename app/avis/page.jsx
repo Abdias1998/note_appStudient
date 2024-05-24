@@ -1,5 +1,5 @@
 "use client";
-import { setGetUser } from "@/features/user.reducers";
+import { setGetUser } from "@/GlobalRedux/features/user.reducers";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/Nav";
 import PostList from "@/sections/AvisCard";

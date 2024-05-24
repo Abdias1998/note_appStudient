@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import { fetchProfs } from "@/features/prof.reducers";
+import { fetchProfs } from "@/GlobalRedux/features/prof.reducers";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";

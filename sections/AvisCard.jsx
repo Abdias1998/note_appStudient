@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfs, addComment } from "@/features/prof.reducers";
+import { fetchProfs, addComment } from "@/GlobalRedux/features/prof.reducers";
 import Image from "next/image";
 import Modal from "react-modal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+
 const customStyles = {
   content: {
     top: "50%",
@@ -19,7 +20,15 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
   },
 };
-const Post = ({ post, handleCommentChange, handleCommentSubmit, comments }) => {
+
+const Post = ({
+  post,
+  handleCommentChange,
+  handleCommentSubmit,
+  handleCommentDelete,
+  comments,
+  userId,
+}) => {
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;
@@ -48,7 +57,6 @@ const Post = ({ post, handleCommentChange, handleCommentSubmit, comments }) => {
         <div
           style={{
             display: "flex",
-
             alignContent: "center",
             alignItems: "center",
           }}
@@ -90,8 +98,19 @@ const Post = ({ post, handleCommentChange, handleCommentSubmit, comments }) => {
         <h4 className="text-sm font-semibold mb-2">Commentaires:</h4>
         {post.comments && post.comments.length > 0 ? (
           post.comments.map((comment, index) => (
-            <div key={index} className="bg-gray-100 p-2 rounded mb-2">
+            <div
+              key={index}
+              className="bg-gray-100 p-2 rounded mb-2 flex justify-between items-center"
+            >
               <p>{comment.text}</p>
+              {comment.commentId === userId && (
+                <button
+                  onClick={() => handleCommentDelete(post._id, comment._id)}
+                  className="bg-red-500 text-white py-1 px-2 rounded"
+                >
+                  Supprimer
+                </button>
+              )}
             </div>
           ))
         ) : (
@@ -130,6 +149,7 @@ const PostList = ({ user }) => {
   const closeModal = () => {
     setIsOpen(false);
   };
+
   useEffect(() => {
     if (user) {
       dispatch(fetchProfs(user));
@@ -156,22 +176,41 @@ const PostList = ({ user }) => {
         }, 8000);
         return;
       }
-      const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_APP_PROF}/commentPost/${postId}`,
-        {
+      await axios
+        .patch(`${process.env.NEXT_PUBLIC_APP_PROF}/commentPost/${postId}`, {
           commentId: user._id,
           text: comments[postId],
           anonyme: false,
-        }
-      );
-      // Ajouter le nouveau commentaire à la liste des commentaires du post dans l'état Redux
-      dispatch(addComment({ postId, comment: response.data }));
-      // Réinitialiser l'état local des commentaires pour ce post
-      setComments({ ...comments, [postId]: "" });
-      openModal("Commentaire ajouté");
+        })
+        .then((response) => {
+          // Ajouter le nouveau commentaire à la liste des commentaires du post dans l'état Redux
+          dispatch(addComment({ postId, comment: response.data }));
+          // Réinitialiser l'état local des commentaires pour ce post
+          setComments({ ...comments, [postId]: "" });
+          openModal("Commentaire ajouté");
+        })
+        .then(() => {
+          dispatch(fetchProfs(user));
+        });
     } catch (error) {
       console.error("Erreur lors de l'ajout du commentaire:", error);
       openModal("Erreur lors de l'ajout du commentaire.");
+    }
+  };
+
+  const handleCommentDelete = async (postId, commentId) => {
+    try {
+      await axios
+        .delete(
+          `${process.env.NEXT_PUBLIC_APP_PROF}/deletePost/${postId}/${commentId}`
+        )
+        .then(() => {
+          dispatch(fetchProfs(user));
+          openModal("Commentaire supprimé");
+        });
+    } catch (error) {
+      console.error("Erreur lors de la suppression du commentaire:", error);
+      openModal("Erreur lors de la suppression du commentaire.");
     }
   };
 
@@ -183,7 +222,9 @@ const PostList = ({ user }) => {
           post={post}
           handleCommentChange={handleCommentChange}
           handleCommentSubmit={handleCommentSubmit}
+          handleCommentDelete={handleCommentDelete}
           comments={comments}
+          userId={user._id}
         />
       ))}
       <Modal

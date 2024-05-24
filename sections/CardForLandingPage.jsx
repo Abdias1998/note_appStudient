@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "primereact/skeleton";
 import { Button } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfs, getAllprofs } from "@/features/prof.reducers";
+import { fetchProfs, getAllprofs } from "@/GlobalRedux/features/prof.reducers";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";

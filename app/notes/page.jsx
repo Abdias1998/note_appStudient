@@ -1,8 +1,8 @@
 "use client";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/Nav";
-import { getAllprofs } from "@/features/prof.reducers";
-import { setGetUser } from "@/features/user.reducers";
+import { getAllprofs } from "@/GlobalRedux/features/prof.reducers";
+import { setGetUser } from "@/GlobalRedux/features/user.reducers";
 import VoteCard from "@/sections/VoteCard";
 import axios from "axios";
 import React, { useEffect, useState } from "react";

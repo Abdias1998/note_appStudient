@@ -36,7 +36,7 @@ const AboutPage = () => {
         <p className="text-lg mb-4">
           Avec notre application, les étudiants peuvent facilement trouver leurs
           professeurs dans la{" "}
-          <span style={{ fontWeight: "bold" }}>page Votes</span> et leur
+          <span style={{ fontWeight: "bold" }}>page Notes</span> et leur
           attribuer des notes en fonction de leur performance. Chaque note
           contribue à une moyenne globale qui aide à identifier les points forts
           et les domaines à améliorer pour chaque enseignant.

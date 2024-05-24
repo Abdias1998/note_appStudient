@@ -9,7 +9,7 @@ import { Button } from "primereact/button";
 import { Rating } from "primereact/rating";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfs, addRating } from "@/features/prof.reducers";
+import { fetchProfs, addRating } from "@/GlobalRedux/features/prof.reducers";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
@@ -60,7 +60,7 @@ const VoteCard = ({ user }) => {
     if (user) {
       dispatch(fetchProfs(user));
     }
-  }, [user, dispatch]);
+  }, [user]);
 
   const openModal = (content) => {
     setModalContent(content);
@@ -97,7 +97,7 @@ const VoteCard = ({ user }) => {
       dispatch(addRating({ id, rating: ratings[id] }));
       openModal(response.data.message);
     } catch (error) {
-      console.error("Erreur lors du vote :", error);
+      console.error("Erreur lors du note :", error);
       setLoadingState((prevLoadingState) => ({
         ...prevLoadingState,
         [id]: false,
