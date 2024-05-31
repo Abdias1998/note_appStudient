@@ -62,7 +62,7 @@ export default function NavBar() {
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
           className="flex items-center justify-between p-6 lg:px-8"
-          aria-label="Global"
+          // aria-label="Global"
         >
           <div className="flex lg:flex-1">
             <Link href="/" className="-m-1.5 p-1.5">
@@ -73,7 +73,7 @@ export default function NavBar() {
                 style={{ borderRadius: "50%" }}
                 className="h-8 w-auto"
                 src="/logo.jpg"
-                alt=""
+                alt="Logo"
               />
             </Link>
           </div>
@@ -131,7 +131,7 @@ export default function NavBar() {
                   style={{ borderRadius: "50%" }}
                   className="h-8 w-auto"
                   src="/logo.jpg"
-                  alt=""
+                  alt="Logo"
                 />
               </Link>
               <button

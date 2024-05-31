@@ -14,29 +14,21 @@ import Image from "next/image";
 import Modal from "react-modal";
 
 import { useRouter } from "next/navigation";
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-// Exemple de données
-const professorsData = [
-  {
-    name: "John Doe",
-    totalRating: 125,
-    institution: "University A",
-    imageUrl: "./next.svg",
-  },
-  { name: "Jane Smith", totalRating: 98, institution: "University B" },
-  { name: "Michael Johnson", totalRating: 150, institution: "University C" },
-  { name: "Michael Johnson", totalRating: 150, institution: "University C" },
-  // Ajoutez plus de données au besoin
-];
+import { customStyles } from "@/utils/customStyles";
+
+// // Exemple de données
+// const profs = [
+//   {
+//     name: "John Doe",
+//     totalRating: 125,
+//     institution: "University A",
+//     imageUrl: "./next.svg",
+//   },
+//   { name: "Jane Smith", totalRating: 98, institution: "University B" },
+//   { name: "Michael Johnson", totalRating: 150, institution: "University C" },
+//   { name: "Michael Johnson", totalRating: 150, institution: "University C" },
+//   // Ajoutez plus de données au besoin
+// ];
 
 const pageSize = 3; // Nombre de cartes par page
 
@@ -82,7 +74,7 @@ const CardForLandingPage = () => {
   // console.log(classe, serie, type, etat);
   // Calcul du début et de la fin de la plage de données à afficher
   const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = Math.min(startIndex + pageSize, professorsData.length);
+  const endIndex = Math.min(startIndex + pageSize, profs.length);
 
   // Fonction pour passer à la page suivante
   const nextPage = () => {

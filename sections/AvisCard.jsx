@@ -9,17 +9,7 @@ import Modal from "react-modal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
+import { customStyles } from "@/utils/customStyles";
 
 const Post = ({
   post,
@@ -169,11 +159,9 @@ const PostList = ({ user }) => {
     try {
       if (!navigator.onLine) {
         setLoading(false);
-        setError("Vérifiez votre connexion internet et réessayez");
+        openModal("Vérifiez votre connexion internet et réessayez");
         setLoading(false);
-        setTimeout(() => {
-          setError("");
-        }, 8000);
+        setTimeout(() => {}, 8000);
         return;
       }
       await axios
@@ -200,6 +188,13 @@ const PostList = ({ user }) => {
 
   const handleCommentDelete = async (postId, commentId) => {
     try {
+      if (!navigator.onLine) {
+        setLoading(false);
+        openModal("Vérifiez votre connexion internet et réessayez");
+        setLoading(false);
+        setTimeout(() => {}, 8000);
+        return;
+      }
       await axios
         .delete(
           `${process.env.NEXT_PUBLIC_APP_PROF}/deletePost/${postId}/${commentId}`

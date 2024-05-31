@@ -13,16 +13,7 @@ import { fetchProfs, addRating } from "@/GlobalRedux/features/prof.reducers";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
+import { customStyles } from "@/utils/customStyles";
 
 const VoteCard = ({ user }) => {
   const dispatch = useDispatch();

@@ -13,6 +13,7 @@ import Team from "@/sections/Team";
 import { setGetUser } from "@/GlobalRedux/features/user.reducers";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfs, getAllprofs } from "@/GlobalRedux/features/prof.reducers";
+import PriceSection from "@/sections/PriceSEction";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ export default function Home() {
       <Heroe />
       <CardForLandingPage />
       <Features />
+      <PriceSection />
       <Team />
       <Footer />
     </>

@@ -79,7 +79,7 @@ const HeroForStastiques = () => {
                 className="name-column"
               />
               <Column
-                field="totalNotes"
+                field="totalVotes"
                 header="Nombre total de Notes"
                 className="votes-column"
               />

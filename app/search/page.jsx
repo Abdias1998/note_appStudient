@@ -8,28 +8,10 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import NavBar from "@/components/Nav";
-import { Spinner } from "@chakra-ui/react";
-
-const School = [
-  {
-    etat: "CEG VEDOKO",
-    classe: ["3e", "Tle"],
-    serie: ["B", "A", "AB"],
-    type: ["M2", "M6", "M4"],
-  },
-  {
-    etat: "CEG NOKOUE",
-    classe: ["Tle"],
-    serie: ["AB"],
-    type: ["M4"],
-  },
-  {
-    etat: "CEG LES PYLONES",
-    classe: ["3e", "Tle"],
-    serie: ["B", "AB"],
-    type: ["M2", "M6"],
-  },
-];
+import { ProgressSpinner } from "primereact/progressspinner";
+import Modal from "react-modal";
+import { customStyles } from "@/utils/customStyles";
+import { School } from "@/utils/schoolTab";
 
 const Post = ({ post }) => {
   const renderStars = (rating) => {
@@ -117,6 +99,17 @@ const SearchList = ({ user }) => {
   const [datas, setDatas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+
+  const openModal = (content) => {
+    setModalContent(content);
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   const [filters, setFilters] = useState({
     etat: "",
     classe: "",
@@ -161,6 +154,9 @@ const SearchList = ({ user }) => {
     } catch (error) {
       console.error("Erreur lors de la récupération des profs filtrés:", error);
       setLoading(false);
+      openModal(
+        "Erreur lors de la récupération des données,veuillez  réessayez plus tard"
+      );
     }
   };
 
@@ -242,29 +238,41 @@ const SearchList = ({ user }) => {
             ))}
           </select>
           {loading ? (
-            <button
-              disabled={true}
-              className={`bg-blue-500 text-white py-2 px-4 rounded mt-2 `}
-            >
-              Chargement......
-            </button>
+            <div className="card flex justify-center">
+              <ProgressSpinner
+                style={{ width: "35px", height: "35px" }}
+                strokeWidth="8"
+                fill="var(--surface-ground)"
+                animationDuration=".5s"
+              />
+            </div>
           ) : (
-            <button
-              onClick={handleSearch}
-              disabled={!isSearchEnabled}
-              className={`bg-blue-500 text-white py-2 px-4 rounded mt-2 ${
-                !isSearchEnabled ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              Rechercher
-            </button>
+            <div className="card flex justify-center">
+              <button
+                onClick={handleSearch}
+                disabled={!isSearchEnabled}
+                className={`bg-blue-500 text-white py-2 px-4 rounded mt-2 ${
+                  !isSearchEnabled ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                Rechercher
+              </button>
+            </div>
           )}
         </div>
         {datas?.length >= 0
           ? datas?.map((post) => <Post key={post._id} post={post} />)
           : "Aucun Avis"}
-        {error && <p className="text-red-500">{error}</p>}
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Message Modal"
+      >
+        <div>{modalContent}</div>
+        <button onClick={closeModal}>Fermer</button>
+      </Modal>
     </div>
   );
 };

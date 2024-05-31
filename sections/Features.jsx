@@ -9,7 +9,7 @@ const features = [
   {
     name: "Connectez-vous à votre compte étudiant",
     description:
-      " “Accédez facilement à votre compte étudiant en utilisant vos identifiants personnels.” “Connectez-vous rapidement et en toute sécurité grâce à cette fonctionnalité.” ",
+      "Accédez facilement à votre compte étudiant en utilisant vos identifiants personnels. ",
     icon: "pi pi-user",
   },
   {
